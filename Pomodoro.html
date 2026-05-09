@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Pomodoro Timer</title>
+  <link rel="stylesheet" href="Pomodoro.css">
+  <!-- <link rel="stylesheet" href="Pomodoro2.css"> -->
+</head>
+
+<body>
+  <main>
+    <section class="timer" id="timer">
+      00:00:00
+    </section>
+    <section class="button-space">
+      <button type="button"  class="start" onclick="startTimer()">Start</button>
+      <button type="button" class="pause" onclick ="pauseTimer()">Pause</button>
+      <button type="button" class="reset"  onclick="resetTimer()">Reset</button>
+      <button type="button" class="stop" id="resetTimer" onclick="stopTimer()">Stop</button>
+    </section>
+    <section class="numberofCounts">
+      <p class="rounds"></p>
+      <p class="count"></p>
+      <p class="dailyCount"></p>
+      <p class="timerPop" id="Time-Up"></p>
+    </section>
+    <section class="userGoal">
+      <label for="numOfHours">
+        Desired duration
+      </label>
+      <input type="number" placeholder="Hours" id="numOfHours">
+      <label for="numOfminutes">
+        Focus length
+      </label>
+      <input type="number" placeholder="Focus time" id="numOfminutes" />
+      <label for="numberOfBreaks">
+        Break length
+      </label>
+      <input type="number" placeholder="Break time
+     " id="numberOfBreaks" />
+      <label for="numberOfLongBreak">
+        Long break duration.
+      </label>
+      <input type="number" placeholder="Long Break" id="numberOfLongBreaks" />
+    </section>
+  </main>
+
+  <script src="Pomodoro.js"></script>
+</body>
+
+</html>

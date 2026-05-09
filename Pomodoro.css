@@ -1,0 +1,121 @@
+*,
+*:before,
+*:after {
+  margin: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: #c30232;
+  color: white;
+  
+}
+
+main {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  margin-top: 5rem;
+  width: 100vw;
+}
+
+.timer {
+  padding: 1em;
+  margin-bottom: 1em;
+  font-size: 3rem;
+  font-family: monospace;
+  font-weight: bold;
+  border: 0.5rem solid white;
+  border-radius: 40px;
+}
+
+button {
+  padding: 1em 2em;
+  border-radius: 1rem;
+  border: 2px solid white;
+  box-shadow: 0.3em 0.3em 0.4em black;
+  color: white;
+  font-family: fantasy;
+  margin: 2rem 5px;
+  
+}
+
+.start {
+  background-color: green;
+  transition: background-color 1.5s cubic-bezier(1, 0, 0, 1);
+}
+
+.start:hover {
+  background-color: darkgreen;
+  color: mintcream;
+  border: none;
+}
+
+.pause {
+  background-color: blue;
+  transition: background-color 1.5s cubic-bezier(1, 0, 0, 1);
+  
+}
+
+.pause:hover {
+  background-color: darkblue;
+  color: mintcream;
+  border: none;
+}
+
+.reset {
+  background-color: red;
+  transition: background-color 1.5s cubic-bezier(1, 0, 0, 1);
+  
+}
+
+.reset:hover {
+  background-color: darkred;
+  color: mintcream;
+  border: none;
+}
+
+.stop {
+  background-color: #C31D00;
+  transition: background-color 1.5s cubic-bezier(1, 0, 0, 1);
+  
+}
+
+.stop:hover {
+  background-color: #C42D20;
+  color: mintcream;
+  border: none;
+}
+
+.userGoal{
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+}
+label{
+  display: block;
+  width: 50%;
+  font-family:  Helvetica, sans-serif;
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin: 0.5em 0;
+  
+}
+input{
+  flex-grow: 1;
+  width: 19rem;
+  height: 2rem;
+  margin: 20px 20px;
+  padding: 20px;
+  border-radius: 10px;
+}
+input::placeholder{
+  text-align: center;
+  font-size: 1rem;
+  font-weight: bold;
+}
+input:focus {
+  border: none; 
+  outline: 2px solid white;
+}
