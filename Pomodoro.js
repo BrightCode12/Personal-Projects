@@ -1,6 +1,6 @@
 let timer;
 let seconds = 0;
-let minutes = 25;
+let minutes = 10;
 let milliseconds;
 let isPaused = false;
 let enteredTime = null;
@@ -12,10 +12,11 @@ const numOfHours = Number(document.getElementById("hours"));
 */
 function startTimer() {
     timer = setInterval(updateTimer, 10);
+
 }
 function updateTimer() {
     const timerElement = document.getElementById("timer");
-    timerElement.textContent = formatTime(minutes, seconds, milliseconds);
+  
     // This Logic checks if the millisecond is greater than zero and if it is reduces it zero and then checks if it still greater than zero else it moves to the next one.
     if (!isPaused) {
 
@@ -31,13 +32,13 @@ function updateTimer() {
                     minutes--;
                 } else {
                     clearInterval(timer);
-                    document.getElementById("Time-up").textContent = `Time is Up! Take a break`
+                    document.getElementById("timeUp").textContent = `Time is Up! Take a break`
                 }
             }
         }
 
     }
-    timerElement.textContent = `${minutes}:${seconds}:${milliseconds}`
+  timerElement.textContent = formatTime(minutes, seconds, milliseconds);
 }
 function formatTime(minutes, seconds, milliseconds) {
     return `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}:${String(milliseconds).padStart(2, '0')}`;
@@ -46,12 +47,13 @@ function formatTime(minutes, seconds, milliseconds) {
 
 function pauseTimer() {
     const Pause = document.getElementById("pause");
-    isPaused = true;
+    isPaused = !isPaused;
     if (isPaused) {
         clearInterval(timer);
         Pause.textContent = `Resume`;
     } else {
         startTimer();
+        timer = setInterval(updateTimer, 1000);
         Pause.textContent = `Pause`;
     }
 
