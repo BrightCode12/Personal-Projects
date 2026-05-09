@@ -11,7 +11,7 @@ const numberOfLongBreaks = Number(document.getElementById("numberOfLongBreaks").
 const numOfHours = Number(document.getElementById("hours"));
 */
 function startTimer() {
-    timer = setInterval(updateTimer, 100);
+    timer = setInterval(updateTimer, 10);
 }
 function updateTimer() {
     const timerElement = document.getElementById("timer");
@@ -45,6 +45,15 @@ function formatTime(minutes, seconds, milliseconds) {
 }
 
 function pauseTimer() {
+    const Pause = document.getElementById("pause");
+    isPaused = true;
+    if (isPaused) {
+        clearInterval(timer);
+        Pause.textContent = `Resume`;
+    } else {
+        startTimer();
+        Pause.textContent = `Pause`;
+    }
 
 }
 function resetTimer() {
