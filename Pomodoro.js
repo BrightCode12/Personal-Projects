@@ -16,7 +16,7 @@ function startTimer() {
     if (isRunning) return;
 
     timer = setInterval(updateTimer, 10);
-    
+
     isRunning = true;
 }
 function updateTimer() {
@@ -52,25 +52,35 @@ function formatTime(minutes, seconds, milliseconds) {
 
 function pauseTimer() {
     const Pause = document.getElementById("pause");
-    
+
     isPaused = !isPaused;
     if (isPaused) {
-        clearInterval(timer);  
+        clearInterval(timer);
 
         isRunning = false;
 
         Pause.textContent = `Resume`;
     } else {
-       
+
         Pause.textContent = `Pause`;
-        
-         startTimer();
+
+        startTimer();
     }
 
 }
 function resetTimer() {
-
+    clearInterval(timer);
+    seconds = 0
+    minutes = 10;
+    milliseconds = 99;
+    isPaused = false;
+    isRunning = false;
+    const timerElement = document.getElementById("timer");
+    timerElement.textContent = formatTime(minutes, seconds, milliseconds);
 }
 function stopTimer() {
-
+    clearInterval(timer);
+    timer = null;
+    isRunning = false;
+    isPaused = false; 
 }
