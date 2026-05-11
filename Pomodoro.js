@@ -1,10 +1,10 @@
 let timer;
 let seconds = 0;
-let minutes = 10;
-let milliseconds;
+let minutes = 1;
+let milliseconds = 0;
 let isPaused = false;
 let isRunning = false;
-let enteredTime = null;
+let isBreak = false;
 
 /*const numOfMinute = Number(document.getElementById("numOfMinute"));
 const numberOfBreaks = Number(document.getElementById("numberOfBreaks").value);
@@ -37,7 +37,7 @@ function updateTimer() {
                     minutes--;
                 } else {
                     clearInterval(timer);
-                    document.getElementById("timeUp").textContent = `Time is Up! Take a break`
+                    switchMode();
                 }
             }
         }
@@ -51,19 +51,15 @@ function formatTime(minutes, seconds, milliseconds) {
 }
 
 function pauseTimer() {
-    const Pause = document.getElementById("pause");
+    const pause = document.getElementById("pause");
 
     isPaused = !isPaused;
     if (isPaused) {
         clearInterval(timer);
-
         isRunning = false;
-
-        Pause.textContent = `Resume`;
+        pause.textContent = `Resume`;
     } else {
-
-        Pause.textContent = `Pause`;
-
+        pause.textContent = `Pause`;
         startTimer();
     }
 
@@ -82,5 +78,30 @@ function stopTimer() {
     clearInterval(timer);
     timer = null;
     isRunning = false;
-    isPaused = false; 
+    isPaused = false;
+}
+function switchMode() {
+
+    clearInterval(timer);
+    isRunning = false;
+    isBreak = !isBreak;
+    const currentState = document.getElementById("currentState");
+    const timeUp = document.getElementById("timeUp");
+    console.log("🔄 switchMode called! isBreak =", isBreak);
+
+    if (isBreak) {
+        alert(`Time is Up! Take a break`);
+        minutes = 5; 
+        seconds = 0;
+        milliseconds = 99;
+
+    } else {
+        alert("Break Over! Back to work");
+        minutes = 25;
+        seconds = 0;
+        milliseconds = 99;
+    }
+    const timerElement = document.getElementById("timer");
+    timerElement.textContent = formatTime(minutes, seconds, milliseconds);
+    startTimer();
 }
