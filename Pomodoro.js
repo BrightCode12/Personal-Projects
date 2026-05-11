@@ -1,16 +1,25 @@
 let timer;
 let seconds = 0;
-let minutes = 1;
-let milliseconds = 0;
+let minutes = 25;
+let milliseconds = 99;
 let isPaused = false;
 let isRunning = false;
 let isBreak = false;
 
-/*const numOfMinute = Number(document.getElementById("numOfMinute"));
-const numberOfBreaks = Number(document.getElementById("numberOfBreaks").value);
-const numberOfLongBreaks = Number(document.getElementById("numberOfLongBreaks").value);
-const numOfHours = Number(document.getElementById("hours"));
-*/
+const minutesInput = document.getElementById("numOfMinutes");
+const breakInput = document.getElementById("numberOfBreaks");
+const longBreaksInput = document.getElementById("numberOfLongBreaks");
+const hoursInput = document.getElementById("numOfHours");
+
+
+minutesInput.addEventListener("change", () => {
+    minutes = Number(minutesInput.value);
+    const timerElement = document.getElementById("timer");
+    timerElement.textContent = `${minutes}:${seconds}:${milliseconds}`;
+    timerElement.textContent = formatTime(minutes, seconds, milliseconds);
+    startTimer();
+});
+
 function startTimer() {
 
     if (isRunning) return;
@@ -21,7 +30,9 @@ function startTimer() {
 }
 function updateTimer() {
     const timerElement = document.getElementById("timer");
+
     // This Logic checks if the millisecond is greater than zero and if it is reduces it zero and then checks if it still greater than zero else it moves to the next one.
+
     if (!isPaused) {
 
         if (milliseconds > 0) {
@@ -66,8 +77,12 @@ function pauseTimer() {
 }
 function resetTimer() {
     clearInterval(timer);
-    seconds = 0
-    minutes = 10;
+    minutesInput.addEventListener("input", () => {
+        minutes = Number(minutesInput.value);
+        seconds = 0;
+        milliseconds = 99;
+    });
+    seconds = 0;
     milliseconds = 99;
     isPaused = false;
     isRunning = false;
@@ -91,15 +106,18 @@ function switchMode() {
 
     if (isBreak) {
         alert(`Time is Up! Take a break`);
-        minutes = 5; 
-        seconds = 0;
-        milliseconds = 99;
-
+        breakInput.addEventListener("input", () => {
+            minutes = Number(breakInput.value);
+            seconds = 0;
+            milliseconds = 99;
+        });
     } else {
         alert("Break Over! Back to work");
-        minutes = 25;
-        seconds = 0;
-        milliseconds = 99;
+        minutesInput.addEventListener("input", () => {
+            minutes = Number(minutesInput.value);
+            seconds = 0;
+            milliseconds = 99;
+        });
     }
     const timerElement = document.getElementById("timer");
     timerElement.textContent = formatTime(minutes, seconds, milliseconds);
