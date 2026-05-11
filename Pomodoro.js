@@ -20,6 +20,20 @@ minutesInput.addEventListener("change", () => {
     startTimer();
 });
 
+breakInput.addEventListener("change", () => {
+    minutes = Number(breakInput.value);
+    seconds = 0;
+    milliseconds = 99;
+    timerElement.textContent = formatTime(minutes, seconds, milliseconds);
+});
+
+breakInput.addEventListener("change", () => {
+    minutes = Number(breakInput.value);
+    seconds = 0;
+    milliseconds = 99;
+    timerElement.textContent = formatTime(minutes, seconds, milliseconds);
+});
+
 function startTimer() {
 
     if (isRunning) return;
@@ -106,20 +120,22 @@ function switchMode() {
 
     if (isBreak) {
         alert(`Time is Up! Take a break`);
-        breakInput.addEventListener("input", () => {
-            minutes = Number(breakInput.value);
-            seconds = 0;
-            milliseconds = 99;
-        });
+
+        minutes = Number(breakInput.value);
+
     } else {
         alert("Break Over! Back to work");
-        minutesInput.addEventListener("input", () => {
-            minutes = Number(minutesInput.value);
-            seconds = 0;
-            milliseconds = 99;
-        });
+
+        minutes = Number(minutesInput.value);
+
     }
+
+    seconds = 0;
+    milliseconds = 99;
+
     const timerElement = document.getElementById("timer");
+
     timerElement.textContent = formatTime(minutes, seconds, milliseconds);
+
     startTimer();
 }
