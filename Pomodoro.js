@@ -153,4 +153,3 @@ function switchMode() {
 
     startTimer();
 }
-console.log(sessionsCompleted);
