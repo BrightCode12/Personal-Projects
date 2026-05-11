@@ -5,6 +5,7 @@ let milliseconds = 99;
 let isPaused = false;
 let isRunning = false;
 let isBreak = false;
+let sessionsCompleted = 0;
 
 const minutesInput = document.getElementById("numOfMinutes");
 const breakInput = document.getElementById("numberOfBreaks");
@@ -24,6 +25,7 @@ breakInput.addEventListener("change", () => {
     minutes = Number(breakInput.value);
     seconds = 0;
     milliseconds = 99;
+    const timerElement = document.getElementById("timer");
     timerElement.textContent = formatTime(minutes, seconds, milliseconds);
 });
 
@@ -31,6 +33,7 @@ breakInput.addEventListener("change", () => {
     minutes = Number(breakInput.value);
     seconds = 0;
     milliseconds = 99;
+    const timerElement = document.getElementById("timer");
     timerElement.textContent = formatTime(minutes, seconds, milliseconds);
 });
 
@@ -68,6 +71,7 @@ function updateTimer() {
         }
 
     }
+
     timerElement.textContent = formatTime(minutes, seconds, milliseconds);
 }
 function formatTime(minutes, seconds, milliseconds) {
@@ -112,13 +116,23 @@ function stopTimer() {
 function switchMode() {
 
     clearInterval(timer);
+
     isRunning = false;
+
     isBreak = !isBreak;
+
     const currentState = document.getElementById("currentState");
     const timeUp = document.getElementById("timeUp");
     console.log("🔄 switchMode called! isBreak =", isBreak);
 
     if (isBreak) {
+
+        sessionsCompleted++;
+
+        const sessionElement = document.querySelector(".count");
+
+        sessionElement.textContent = sessionsCompleted;
+
         alert(`Time is Up! Take a break`);
 
         minutes = Number(breakInput.value);
@@ -139,3 +153,4 @@ function switchMode() {
 
     startTimer();
 }
+console.log(sessionsCompleted);
