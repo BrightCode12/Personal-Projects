@@ -48,7 +48,6 @@ hoursInput.addEventListener("change", () => {
 
 
 function startTimer() {
-
     if (isRunning) return;
 
     timer = setInterval(updateTimer, 10);
