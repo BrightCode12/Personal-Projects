@@ -1,10 +1,17 @@
 let timer;
+
+let workMinutes = 25;
+let breakMinutes = 5;
+let longBreakMinutes = 10;
+
 let seconds = 0;
 let minutes = 25;
 let milliseconds = 99;
+
 let isPaused = false;
 let isRunning = false;
 let isBreak = false;
+
 let sessionsCompleted = 0;
 let numberOfRounds = 0;
 let totalBreaks = 0;
@@ -18,34 +25,85 @@ const hoursInput = document.getElementById("numOfHours");
 
 
 minutesInput.addEventListener("change", () => {
-    minutes = Number(minutesInput.value);
-    const timerElement = document.getElementById("timer");
-    timerElement.textContent = `${minutes}:${seconds}:${milliseconds}`;
-    timerElement.textContent = formatTime(minutes, seconds, milliseconds);
-    startTimer();
+
+    const value = Number(minutesInput.value);
+
+    if (value <= 0 || value >= 46) {
+
+        alert("Invalid Focus Input");
+
+        return;
+    } else {
+
+        workMinutes = value;
+
+        minutes = workMinutes;
+
+        updateDisplay();
+    }
 });
 
 breakInput.addEventListener("change", () => {
-    minutes = Number(breakInput.value);
-    seconds = 0;
-    milliseconds = 99;
-    const timerElement = document.getElementById("timer");
-    timerElement.textContent = formatTime(minutes, seconds, milliseconds);
+    const value = Number(breakInput.value);
+    if (value <= 0 || value > 15) {
+
+        alert("Break is too Long!");
+
+        return;
+    } else {
+        breakMinutes = value;
+
+        minutes = breakMinutes;
+
+        updateDisplay();
+    }
 });
 
+
 longBreaksInput.addEventListener("change", () => {
-    minutes = Number(longBreaksInput.value);
-    seconds = 0;
-    milliseconds = 99;
-    const timerElement = document.getElementById("timer");
-    timerElement.textContent = formatTime(minutes, seconds, milliseconds);
+
+    const value = Number(longBreaksInput.value);
+
+    if (value < 0 || value >= 20) {
+
+        alert("Long Break Invalid");
+
+        return;
+    } else {
+        longBreakMinutes = value;
+
+        minutes = breakMinutes;
+
+        updateDisplay();
+    }
+
 });
 
 hoursInput.addEventListener("change", () => {
+
+    if (value < 0 || value > 8) {
+        alert("Invalid Desired Duration");
+    }
     totalNumberHours = Number(hoursInput.value);
 });
 
+function updateDisplay() {
+    const timerElement = document.getElementById("timer");
+    timerElement.textContent = `${minutes}:${seconds}:${milliseconds}`;
+    timerElement.textContent = formatTime(minutes, seconds, milliseconds);
 
+}
+
+function formatTime(minutes, seconds, milliseconds) {
+    return `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}:${String(milliseconds).padStart(2, '0')}`;
+}
+
+function toggleInputs(disabled) {
+    minutesInput.disabled = disabled;
+    breakInput.disabled = disabled;
+    longBreaksInput.disabled = disabled;
+    hoursInput.disabled = disabled;
+}
 
 function startTimer() {
     if (isRunning) return;
@@ -53,7 +111,10 @@ function startTimer() {
     timer = setInterval(updateTimer, 10);
 
     isRunning = true;
+
+    toggleInputs(true);
 }
+
 function updateTimer() {
     const timerElement = document.getElementById("timer");
 
@@ -81,11 +142,7 @@ function updateTimer() {
 
     }
 
-    timerElement.textContent = formatTime(minutes, seconds, milliseconds);
-}
-function formatTime(minutes, seconds, milliseconds) {
-    return `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}:${String(milliseconds).padStart(2, '0')}`;
-
+    updateDisplay();
 }
 
 function pauseTimer() {
@@ -102,25 +159,29 @@ function pauseTimer() {
     }
 
 }
+
 function resetTimer() {
+
     clearInterval(timer);
     minutes = Number(minutesInput.value);
     seconds = 0;
     milliseconds = 99;
-    seconds = 0;
-    milliseconds = 99;
     isPaused = false;
     isRunning = false;
-    const timerElement = document.getElementById("timer");
-    timerElement.textContent = formatTime(minutes, seconds, milliseconds);
+    updateDisplay();
+    toggleInputs(false)
 }
+
 function stopTimer() {
     clearInterval(timer);
     timer = null;
     isRunning = false;
     isPaused = false;
 }
+
 function switchMode() {
+
+    toggleInputs(true);
 
     clearInterval(timer);
 
@@ -128,61 +189,46 @@ function switchMode() {
 
     isBreak = !isBreak;
 
-    const currentState = document.getElementById("currentState");
-    const timeUp = document.getElementById("timeUp");
     console.log("🔄 switchMode called! isBreak =", isBreak);
 
-    totalTime = (sessionsCompleted * Number(minutesInput.value)) + (totalBreaks * Number(breakInput.value)) + (numberOfRounds * Number(longBreaksInput.value));
 
-    if (totalTime >= totalNumberHours * 60) {
-        clearInterval(timer)
-        alert("Goal Completed");
-    } else {
-        if (isBreak) {
+    if (isBreak) {
 
-            sessionsCompleted++;
+        sessionsCompleted++;
 
-            if (sessionsCompleted % 4 === 0) {
+        if (sessionsCompleted % 4 === 0) {
 
-                numberOfRounds++;
+            numberOfRounds++;
 
-                const roundsElement = document.querySelector(".rounds");
+            const roundsElement = document.querySelector(".rounds");
 
-                roundsElement.textContent = numberOfRounds;
+            roundsElement.textContent = numberOfRounds;
 
-                const sessionElement = document.querySelector(".count");
+            const sessionElement = document.querySelector(".count");
 
-                sessionElement.textContent = sessionsCompleted;
+            alert(`You've finished 🍅🍅🍅🍅 2 hours of focused work! You've earned a long break.`);
 
-                alert(`You've finished 🍅🍅🍅🍅 2 hours of focused work! You've earned a long break.`);
+            minutes = Number(longBreaksInput.value);
 
-                minutes = Number(longBreaksInput.value);
-
-            } else {
-                totalBreaks++;
-
-                const sessionElement = document.querySelector(".count");
-
-                sessionElement.textContent = sessionsCompleted;
-
-                alert(`Time is Up! Take a break`);
-
-                minutes = Number(breakInput.value);
-            }
         } else {
-            alert("Break Over! Back to work");
+            totalBreaks++;
 
-            minutes = Number(minutesInput.value);
+            const sessionElement = document.querySelector(".count");
 
+            sessionElement.textContent = sessionsCompleted;
+
+            alert(`Time is Up! Take a break`);
+
+            minutes = Number(breakInput.value);
         }
+    } else {
+        alert("Break Over! Back to work");
 
-        seconds = 0;
-        milliseconds = 99;
+        minutes = Number(minutesInput.value);
 
-        const timerElement = document.getElementById("timer");
-
-        timerElement.textContent = formatTime(minutes, seconds, milliseconds);
-
-        startTimer();
     }
+
+    updateDisplay();
+    startTimer();
 }
+
