@@ -13,10 +13,8 @@ let isRunning = false;
 let isBreak = false;
 
 let sessionsCompleted = 0;
-let numberOfRounds = 0;
-let totalBreaks = 0;
-let totalNumberHours = 0;
-let totalTime = 0;
+let totalMinutes = 0;
+let totalHours = 0;
 
 const minutesInput = document.getElementById("numOfMinutes");
 const breakInput = document.getElementById("numberOfBreaks");
@@ -88,7 +86,7 @@ hoursInput.addEventListener("change", () => {
     if (value < 0 || value > 8) {
         alert("Invalid Desired Duration");
     }
-    totalNumberHours = Number(hoursInput.value);
+    totalHours = Number(hoursInput.value);
 });
 
 function updateDisplay() {
@@ -156,7 +154,7 @@ function shortBreak() {
     alert(`Time is Up! Take a break`);
 
     defaultValue();
-    
+
 
     minutes = Number(breakInput.value);
 
@@ -173,7 +171,7 @@ function longBreak() {
     const sessionElement = document.querySelector(".count");
 
     alert(`You've finished 🍅🍅🍅🍅 2 hours of focused work! You've earned a long break.`);
- 
+
     defaultValue();
 
     minutes = Number(longBreaksInput.value);
@@ -181,7 +179,7 @@ function longBreak() {
 
 function switchMode() {
 
-    toggleInputs(true);
+    toggleInputs(false);
 
     clearInterval(timer);
 
@@ -190,7 +188,7 @@ function switchMode() {
     isBreak = !isBreak;
 
     console.log("🔄 switchMode called! isBreak =", isBreak);
-    
+
     if (isBreak) {
 
         sessionsCompleted++;
@@ -204,7 +202,7 @@ function switchMode() {
         }
     } else {
         alert("Break Over! Back to work");
-        
+
         defaultValue();
 
         minutes = Number(minutesInput.value);
@@ -213,6 +211,24 @@ function switchMode() {
 
     updateDisplay();
     startTimer();
+}
+
+function numHours() {
+    const totalMinutes  = sessionsCompleted * workMinutes;
+
+    const focusedHours =  totalMinutes / 60;
+
+    if (focusedHours >= totalHours) {
+
+        clearInterval(timer);
+
+        isRunning = false;
+
+        toggleInputs(false);
+
+        alert("🎉 Goal Completed!");
+
+    }
 }
 
 function pauseTimer() {
