@@ -144,6 +144,7 @@ function focusMode() {
 
     updateDisplay();
 }
+
 function shortBreak() {
     totalBreaks++;
 

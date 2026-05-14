@@ -11,9 +11,21 @@
 
 <body>
   <main>
-    <section class="timer" id="timer">
-      <p id="currentState"> Focus Mode</p>
-      00:00:00
+    <div class="progress-rectangle">
+      <div class="progress-fill">
+        <div class="timer-display">
+          <section class="timer" id="timer">
+            <p id="currentState"> Focus Mode</p>
+            00:00:00
+          </section>
+        </div>
+      </div>
+    </div>
+    <section class="numberofCounts">
+      <p class="rounds"></p>
+      <p class="count"></p>
+      <p class="dailyCount"></p>
+      <p class="timerPop" id="timeUp"></p>
     </section>
     <section class="button-space">
       <button type="submit" class="start" onclick="startTimer() ">Start</button>
@@ -21,12 +33,7 @@
       <button type="button" class="reset" onclick="resetTimer()">Reset</button>
       <button type="button" class="stop" id="resetTimer" onclick="stopTimer()">Stop</button>
     </section>
-    <section class="numberofCounts">
-      <p class="rounds">0</p>
-      <p class="count">0</p>
-      <p class="dailyCount"></p>
-      <p class="timerPop" id="timeUp"></p>
-    </section>
+
     <section class="userGoal">
       <label for="numOfHours">
         Desired duration
