@@ -82,11 +82,11 @@ longBreaksInput.addEventListener("change", () => {
 });
 
 hoursInput.addEventListener("change", () => {
-
+    const value = Number(hoursInput.value);
     if (value < 0 || value > 8) {
         alert("Invalid Desired Duration");
     }
-    totalHours = Number(hoursInput.value);
+    totalHours = value;
 });
 
 function updateDisplay() {
@@ -146,7 +146,6 @@ function focusMode() {
 }
 
 function shortBreak() {
-    totalBreaks++;
 
     const sessionElement = document.querySelector(".count");
 
@@ -162,13 +161,6 @@ function shortBreak() {
 }
 
 function longBreak() {
-
-    numberOfRounds++;
-
-    const roundsElement = document.querySelector(".rounds");
-
-    roundsElement.textContent = numberOfRounds;
-
     const sessionElement = document.querySelector(".count");
 
     alert(`You've finished 🍅🍅🍅🍅 2 hours of focused work! You've earned a long break.`);
