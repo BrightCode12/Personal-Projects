@@ -20,6 +20,8 @@ const minutesInput = document.getElementById("numOfMinutes");
 const breakInput = document.getElementById("numberOfBreaks");
 const longBreaksInput = document.getElementById("numberOfLongBreaks");
 const hoursInput = document.getElementById("numOfHours");
+const sessionElement = document.querySelector(".round");
+const messageText = document.querySelector(".message-text");
 
 
 minutesInput.addEventListener("change", () => {
@@ -145,30 +147,26 @@ function focusMode() {
     updateDisplay();
 }
 
+
 function shortBreak() {
-
-    const sessionElement = document.querySelector(".count");
-
     sessionElement.textContent = sessionsCompleted;
 
-    alert(`Time is Up! Take a break`);
+    messageText.textContent = `Time is Up! Take a break`;
 
     defaultValue();
 
-
     minutes = Number(breakInput.value);
-
 }
 
 function longBreak() {
-    const sessionElement = document.querySelector(".count");
 
-    alert(`You've finished 🍅🍅🍅🍅 2 hours of focused work! You've earned a long break.`);
+    messageText.textContent = `Move (Stand up, stretch)`;
 
     defaultValue();
 
     minutes = Number(longBreaksInput.value);
 }
+
 
 function switchMode() {
 
@@ -194,11 +192,13 @@ function switchMode() {
             shortBreak();
         }
     } else {
-        alert("Break Over! Back to work");
+        messageText.textContent = "Break Over! Back to work";
 
         defaultValue();
 
         minutes = Number(minutesInput.value);
+
+        messageText.textContent = `Deep work`;
 
     }
 
@@ -207,9 +207,9 @@ function switchMode() {
 }
 
 function numHours() {
-    const totalMinutes  = sessionsCompleted * workMinutes;
+    const totalMinutes = sessionsCompleted * workMinutes;
 
-    const focusedHours =  totalMinutes / 60;
+    const focusedHours = totalMinutes / 60;
 
     if (focusedHours >= totalHours) {
 
@@ -219,7 +219,9 @@ function numHours() {
 
         toggleInputs(false);
 
-        alert("🎉 Goal Completed!");
+        messageText();
+
+        messageText.textContent = `🎉 Goal Completed`;
 
     }
 }
