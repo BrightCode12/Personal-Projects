@@ -3,6 +3,8 @@
 
 <head>
   <meta charset="UTF-8">
+  <link rel="shortcut icon" href="Logo-image2.png" type="image/x-icon" sizes="180x180">
+  <link rel="shortcut icon" href="Logo-image2.png" type="image/x-icon" sizes="16x16">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Pomodoro Timer</title>
   <link rel="stylesheet" href="Pomodoro.css">
@@ -11,21 +13,22 @@
 
 <body>
   <main>
-    <div class="session-management">
-      <div class="rounds"></div>
-    </div>
-
     <div class="timer-display">
       <section class="timer" id="timer">
         <p id="currentState"> Focus Mode</p>
         00:00:00
       </section>
-
     </div>
-    <section class="numberofCounts">
-      <p class="rounds"></p>
-      <p class="count"></p>
-      <p class="dailyCount"></p>
+    <section class="numberOfCounts">
+      <div class="round-display">
+        <p class="round">1</p>
+        <div class="text">Rounds</div>
+      </div>
+      <div class="message">
+        <div class="message-text">
+          Time is Up! Take a break
+        </div>
+      </div>
       <p class="timerPop" id="timeUp"></p>
     </section>
     <section class="button-space">
@@ -36,12 +39,12 @@
     </section>
 
     <section class="userGoal">
-      <div class="inputs group">
+      <div class="inputs-group">
         <label for="numOfHours">
           Desired duration
         </label>
         <input type="number" placeholder="Hours" id="numOfHours">
-        <label for="numOfminutes">
+        <label for ="numOfMinutes">
           Focus length
         </label>
         <input type="number" placeholder="Focus time" id="numOfMinutes" value="25" />
