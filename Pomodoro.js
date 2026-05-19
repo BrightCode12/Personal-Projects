@@ -23,6 +23,14 @@ const hoursInput = document.getElementById("numOfHours");
 const sessionElement = document.querySelector(".round");
 const messageText = document.querySelector(".message-text");
 
+const bodyElement = document.body;
+const mainElement = document.querySelector("main");
+const timerElement = document.querySelector(".timer");
+const numberOfCounts = document.querySelector(".numberOfCounts");
+const roundDisplay = document.querySelector(".round-display");
+const messageDisplay = document.querySelector(".message");
+const messageFocus = document.querySelector(".message-text");
+const round = document.querySelector(".round");
 
 minutesInput.addEventListener("change", () => {
 
@@ -76,7 +84,7 @@ longBreaksInput.addEventListener("change", () => {
     } else {
         longBreakMinutes = value;
 
-        minutes = breakMinutes;
+        minutes = longBreakMinutes;
 
         updateDisplay();
     }
@@ -93,7 +101,7 @@ hoursInput.addEventListener("change", () => {
 
 function updateDisplay() {
     const timerElement = document.getElementById("timer");
-    timerElement.textContent = `${minutes}:${seconds}:${milliseconds}`;
+
     timerElement.textContent = formatTime(minutes, seconds, milliseconds);
 
 }
@@ -121,6 +129,7 @@ function startTimer() {
 
 function focusMode() {
     // This Logic checks if the millisecond is greater than zero and if it is reduces it zero and then checks if it still greater than zero else it moves to the next one.
+    focusColorMode();
 
     if (!isPaused) {
 
@@ -147,7 +156,6 @@ function focusMode() {
     updateDisplay();
 }
 
-
 function shortBreak() {
     sessionElement.textContent = sessionsCompleted;
 
@@ -166,7 +174,6 @@ function longBreak() {
 
     minutes = Number(longBreaksInput.value);
 }
-
 
 function switchMode() {
 
@@ -219,8 +226,6 @@ function numHours() {
 
         toggleInputs(false);
 
-        messageText();
-
         messageText.textContent = `🎉 Goal Completed`;
 
     }
@@ -257,4 +262,45 @@ function stopTimer() {
     timer = null;
     isRunning = false;
     isPaused = false;
+}
+
+function focusColorMode() {
+
+    bodyElement.classList.add('focus-mode');
+
+    mainElement.classList.add('focus-mode-main');
+
+    timerElement.classList.add('focus-mode-timer');
+
+    numberOfCounts.classList.add('focus-mode-numberOfCounts');
+
+    roundDisplay.classList.add('focus-mode-roundDisplay');
+
+    messageDisplay.classList.add('focus-mode-message');
+
+    messageFocus.classList.add('focus-mode-message-text');
+
+    round.classList.add('focus-mode-round');
+
+}
+
+function shortBreakColorMode() {
+    bodyElement.classList.add('focus-mode');
+
+    mainElement.classList.add('focus-mode-main');
+
+    timerElement.classList.add('focus-mode-timer');
+
+    numberOfCounts.classList.add('focus-mode-numberOfCounts');
+
+    roundDisplay.classList.add('focus-mode-roundDisplay');
+
+    messageDisplay.classList.add('focus-mode-message');
+
+    messageFocus.classList.add('focus-mode-message-text');
+
+    round.classList.add('focus-mode-round');
+}
+function longBreakColorMode() {
+
 }
