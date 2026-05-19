@@ -158,9 +158,9 @@ function focusMode() {
 
 function shortBreak() {
     sessionElement.textContent = sessionsCompleted;
-
+   
     messageText.textContent = `Time is Up! Take a break`;
-
+    shortBreakColorMode();
     defaultValue();
 
     minutes = Number(breakInput.value);
@@ -198,7 +198,10 @@ function switchMode() {
         } else {
             shortBreak();
         }
-    } else {
+    } else {  
+        
+        focusColorMode();
+
         messageText.textContent = "Break Over! Back to work";
 
         defaultValue();
@@ -285,19 +288,19 @@ function focusColorMode() {
 }
 
 function shortBreakColorMode() {
-    bodyElement.classList.add('focus-mode');
+    bodyElement.classList.add('break-mode');
 
-    mainElement.classList.add('focus-mode-main');
+    mainElement.classList.add('break-mode-main');
 
-    timerElement.classList.add('focus-mode-timer');
+    timerElement.classList.add('break-mode-timer');
 
-    numberOfCounts.classList.add('focus-mode-numberOfCounts');
+    numberOfCounts.classList.add('break-mode-numberOfCounts');
 
-    roundDisplay.classList.add('focus-mode-roundDisplay');
+    roundDisplay.classList.add('break-mode-roundDisplay');
 
-    messageDisplay.classList.add('focus-mode-message');
+    messageDisplay.classList.add('break-mode-message');
 
-    messageFocus.classList.add('focus-mode-message-text');
+    messageFocus.classList.add('break-mode-message-text');
 
     round.classList.add('focus-mode-round');
 }
