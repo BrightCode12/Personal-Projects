@@ -3,6 +3,8 @@
 
 <head>
   <meta charset="UTF-8">
+  <link rel="shortcut icon" href="Logo-image2.png" type="image/x-icon" sizes="180x180" class="logo">
+  <link rel="shortcut icon" href="Logo-image2.png" type="image/x-icon" sizes="16x16">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Pomodoro Timer</title>
   <link rel="stylesheet" href="Pomodoro.css">
@@ -11,39 +13,49 @@
 
 <body>
   <main>
-    <section class="timer" id="timer">
-      00:00:00
+    <div class="timer-display">
+      <section class="timer" id="timer">
+        <p id="currentState"> Focus Mode</p>
+        00:00:00
+      </section>
+    </div>
+    <section class="numberOfCounts">
+      <div class="round-display">
+        <p class="round">0</p>
+        <div class="text">Rounds</div>
+      </div>
+      <div class="message">
+        <div class="message-text">
+          Deep work mode
+        </div>
+      </div>
     </section>
     <section class="button-space">
-      <button type="button"  class="start" onclick="startTimer()">Start</button>
-      <button type="button" class="pause" onclick ="pauseTimer()">Pause</button>
-      <button type="button" class="reset"  onclick="resetTimer()">Reset</button>
+      <button type="submit" class="start" onclick="startTimer() ">Start</button>
+      <button type="button" class="pause" onclick="pauseTimer()" id="pause">Pause</button>
+      <button type="button" class="reset" onclick="resetTimer()">Reset</button>
       <button type="button" class="stop" id="resetTimer" onclick="stopTimer()">Stop</button>
     </section>
-    <section class="numberofCounts">
-      <p class="rounds"></p>
-      <p class="count"></p>
-      <p class="dailyCount"></p>
-      <p class="timerPop" id="Time-Up"></p>
-    </section>
+
     <section class="userGoal">
-      <label for="numOfHours">
-        Desired duration
-      </label>
-      <input type="number" placeholder="Hours" id="numOfHours">
-      <label for="numOfminutes">
-        Focus length
-      </label>
-      <input type="number" placeholder="Focus time" id="numOfminutes" />
-      <label for="numberOfBreaks">
-        Break length
-      </label>
-      <input type="number" placeholder="Break time
-     " id="numberOfBreaks" />
-      <label for="numberOfLongBreak">
-        Long break duration.
-      </label>
-      <input type="number" placeholder="Long Break" id="numberOfLongBreaks" />
+      <div class="inputs-group">
+        <label for="numOfHours">
+          Desired duration
+        </label>
+        <input type="number" placeholder="Hours" id="numOfHours">
+        <label for ="numOfMinutes">
+          Focus length
+        </label>
+        <input type="number" placeholder="Focus time" id="numOfMinutes" value="25" />
+        <label for="numberOfBreaks">
+          Break length
+        </label>
+        <input type="number" placeholder="Break time" id="numberOfBreaks" value="5" />
+        <label for="numberOfLongBreak">
+          Long break duration.
+        </label>
+        <input type="number" placeholder="Long Break" id="numberOfLongBreaks" value="10" />
+      </div>
     </section>
   </main>
 
