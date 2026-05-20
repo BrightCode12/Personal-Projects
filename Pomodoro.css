@@ -45,7 +45,7 @@ section {
   flex-direction: column;
   justify-content: center;
   text-align: center;
-  padding: clamp(1.9rem, 9vw, 5rem);
+  padding: clamp(1.9rem, 3vw, 5rem);
   font-size: clamp(2.5rem, 10vw, 6rem);
   margin-bottom: 0.4em;
   font-family: monospace;
@@ -329,12 +329,12 @@ p {
 
 .focus-mode-main {
   background: linear-gradient(145deg,
-      rgba(255, 255, 255, 0.06),
+      rgba(255, 255, 255, 0.05),
       rgba(255, 255, 255, 0.03));
 
   border: 1px solid rgba(255, 255, 255, 0.08);
 
-  backdrop-filter: blur(16px);
+  backdrop-filter: blur(18px);
 
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.35);
 
@@ -343,13 +343,13 @@ p {
 
 .focus-mode-timer {
   background: linear-gradient(145deg,
-      rgba(59, 130, 246, 0.18),
+      rgba(59, 130, 246, 0.08),
       rgba(30, 64, 175, 0.08));
 
-  border: 1px solid rgba(96, 165, 250, 0.18);
+  border: 1px solid rgba(96, 165, 250, 0.15);
 
   box-shadow:
-    0 0 10px rgba(59, 130, 246, 0.18),
+    0 0 30px rgba(59, 130, 246, 0.18),
     0 0 10px 40px rgba(2, 3, 36, 0.35);
 
   color: #EFF6FF;
@@ -358,9 +358,9 @@ p {
 .focus-mode-numberOfCounts {
 
   background:
-    rgba(255, 255, 255, 0.05);
+    rgba(255, 255, 255, 0.04);
 
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.06);
 
   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25);
 }
@@ -370,12 +370,14 @@ p {
   background: linear-gradient(180deg,
       #1E3A8A,
       #172554);
+
+  border: 1px solid rgba(96, 165, 250, 0.10);
 }
 
 .focus-mode-message {
-  background: rgba(255, 255, 255, 0.04);
+  background: rgba(255, 255, 255, 0.03);
 
-  border: 1px solid rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 .focus-mode-message-text {
@@ -385,18 +387,26 @@ p {
       #2563EB,
       #1D4ED8);
 
-  color: white;
+  color: #F8FAFC;
+
+  border: 1px solid rgba(96, 165, 250, 0.15);
 
   box-shadow:
-    0 5px 20px rgba(37, 99, 235, 0.35);
+    0 5px 20px rgba(37, 99, 235, 0.15);
 }
 
 .focus-mode-round {
 
   background:
     linear-gradient(135deg,
-      #60A5FA,
+      #3BB2F6,
       #2563EB);
+
+  color: white;
+
+  box-shadow:
+    0 0 20px rgba(59, 130, 246, 0.30);
+
 }
 
 .focus-mode::before {
@@ -407,11 +417,11 @@ p {
 
   background:
     radial-gradient(circle at top left,
-      rgba(59, 130, 246, 0.12),
-      transparent 20%),
+      rgba(59, 130, 246, 0.10),
+      transparent 35%),
 
     radial-gradient(circle at bottom right,
-      rgba(139, 92, 246, 0.12),
+      rgba(139, 92, 246, 0.08),
       transparent 35%);
 
   pointer-events: none;
@@ -422,92 +432,85 @@ p {
 .break-mode {
 
   background: linear-gradient(135deg,
-      #1C140F,
-      #241A14,
-      #33241C,
-      #241F1B,
-      #33241C,
-      #2A1E17);
+      #06110A,
+      #08170D,
+      #0B1F14,
+      #102A1C, );
 
-  color: #FFF7ED;
+  color: #ECFDF5;
 }
 
 .break-mode-main {
 
   background: linear-gradient(145deg,
-      rgba(255, 255, 255, 0.05),
-      rgba(255, 255, 255, 0.02));
+      rgba(255, 255, 255, 0.04));
 
-  border: 1px solid rgba(245, 247, 237, 0.08);
+  border: 1px solid rgba(245, 247, 237, 0.06);
 
-  backdrop-filter: blur(16px);
-  
-  box-shadow: 0 0 10px 40px rgba(0, 0, 0, 0.35);
+  box-shadow: 0 0 10px 40px rgba(0, 0, 0, 0.30);
 }
 
 .break-mode-timer {
 
   background:
     linear-gradient(145deg,
-      rgba(200, 159, 123, 0.18),
-      rgba(120, 85, 60, 0.10));
+      rgba(34, 197, 94, 0.08));
 
-  border: 1px solid rgba(230, 177, 126, 0.18);
+  border: 1px solid rgba(72, 222, 128, 0.14);
 
   box-shadow:
-    0 0 20px rgba(200, 159, 123, 0.18),
-    0 0 10px rgba(0, 0, 0, 0.35);
+    0 0 30px rgba(34, 197, 94, 0.18),
+    0 0 10px rgba(0, 0, 0, 0.30);
 
-  color: #F5EBE6;
+  color: #F0FDF4;
 }
 
 .break-mode-numberOfCounts {
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(245, 235, 230, 0.08);
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.05);
   box-shadow:
-    0 8px 25px rgba(0, 0, 0, 0.25);
+    0 8px 25px rgba(182, 91, 7, 0.22);
 }
 
 .break-mode-roundDisplay {
 
-  background:
-    linear-gradient(180deg,
-      #6B4F3B,
-      #4A3425);
+  background: rgba(21, 128, 61, 0.22);
+
+  border: 1px solid rgba(74, 222, 128, 0.08);
 }
 
 .break-mode-message {
 
-  background: rgba(255, 255, 255, 0.03);
+  background: rgba(255, 255, 255, 0.025);
 
-  border: 1px solid rgba(245, 235, 230, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.04);
 }
 
 .break-mode-message-text {
 
-  background: linear-gradient(135deg,
-      #C89F78,
-      #A47148);
+  background: rgba(34, 197, 94, 0.16);
 
-  color: #FFF8F3;
+  border: 1px solid rgba(74, 222, 128, 0.10);
+
+  color: #F0FDF4;
 
   box-shadow:
-    0 5px 20px rgba(200, 159, 123, 0.25);
+    0 5px 20px rgba(34, 197, 94, 0.12);
 }
 
 .break-mode-round {
   background:
     linear-gradient(135deg,
-      #E6B17E,
-      #C89F78);
+      #22C55E,
+      #16A34A);
 
-  color: #2C2520;
+  color: white;
 
-  box-shadow: 
-  0 0 20px rgba(230, 177, 126, 0.35);
+  box-shadow:
+    0 0 20px rgba(34, 197, 94, 0.28);
 }
 
-.break-mode::before{
+.break-mode::before {
 
   content: "";
 
@@ -515,16 +518,125 @@ p {
 
   inset: 0;
 
-  background: 
-  radial-gradient(
-    circle at top left,
-    rgba(230, 177, 126, 0.10),
-    transparent 35%
-  ), 
-  radial-gradient(
-    circle at bottom right,
+  background:
+    radial-gradient(circle at top left,
+      rgba(34, 197, 94, 0.08),
+      transparent 35%),
+    radial-gradient(circle at bottom right,
+      rgba(74, 222, 128, 0.06),
+      transparent 35%)
+}
 
-  )
+body,
+main,
+.timer,
+.message-text,
+.round {
+
+
+  transition:
+    background 0.6s ease,
+    box-shadow 0.6s ease,
+    border 0.6s ease,
+    color 0.4s ease,
+}
+
+.long-break-mode {
+  background: linear-gradient(135deg,
+      #0B0613,
+      #12091C,
+      #1A102B,
+      #211536);
+  color: #F5F3FF;
+}
+
+.long-break-mode-main {
+  background: rgba(255, 255, 255, 0.04);
+
+  backdrop-filter: blur(18px);
+
+  border: 1px solid rgba(255, 255, 255, 0.06);
+
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0, 0.32);
+}
+
+.long-break-mode-timer {
+  background: rgba(139, 92, 246, 0.08);
+
+  border: 1px solid rgba(167, 139, 250, 0.14);
+
+  color: #F5F3FF;
+
+  box-shadow:
+    0 0 30px rgba(139, 92, 246, 0.18),
+    0 10 40px rgba(0, 0, 0, 0.30);
+}
+
+.long-break-mode-numberOfCounts {
+  background: rgba(255, 255, 255, 0.03);
+
+  border: 1px solid rgba(255, 255, 255, 0.05);
+
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.22);
+}
+
+.long-break-mode-roundDisplay{
+
+  background: rgba(91, 33, 182, 0.22);
+
+  border: 1px solid rgba(167, 139, 250, 0.08);
+}
+
+.long-break-mode-message {
+
+  background: rgba(255, 255, 255, 0.025);
+
+  border: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.long-break-mode-message-text {
+
+  background: rgba(139, 92, 246, 0.16);
+
+  color: #F5F3FF;
+
+  border: 1px solid rgba(167, 139, 250, 0.10);
+
+  box-shadow: 0 5px 20px rgba(139, 92, 246, 0.14);
+}
+
+.long-break-mode-round {
+
+  background: linear-gradient(135deg,
+      #8B5CF6,
+      #7C3AED);
+
+  color: white;
+
+  box-shadow:
+    0 0 20px rgba(139, 92, 246, 0.28);
+}
+
+.long-break-mode::before {
+
+  content: "";
+
+  position: fixed;
+
+  inset: 0;
+
+  background:
+
+    radial-gradient(circle at two left,
+      rgba(139, 92, 246, 0.08),
+      transparent 35%),
+
+    radial-gradient(circle at bottom right,
+      rgba(167, 139, 250, 0.06),
+      transparent 35%);
+  pointer-events: none;
+
+  z-index: -1;
 }
 
 @media(min-width: 900px) {

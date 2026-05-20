@@ -61,8 +61,6 @@ breakInput.addEventListener("change", () => {
     } else {
         breakMinutes = value;
 
-        minutes = breakMinutes;
-
         updateDisplay();
     }
 });
@@ -83,8 +81,6 @@ longBreaksInput.addEventListener("change", () => {
         return;
     } else {
         longBreakMinutes = value;
-
-        minutes = longBreakMinutes;
 
         updateDisplay();
     }
@@ -158,21 +154,27 @@ function focusMode() {
 
 function shortBreak() {
     sessionElement.textContent = sessionsCompleted;
-   
+
     messageText.textContent = `Time is Up! Take a break`;
     shortBreakColorMode();
     defaultValue();
 
-    minutes = Number(breakInput.value);
+    minutes = breakMinutes;
 }
 
 function longBreak() {
-
+    
+    sessionCompleted++;
+    
     messageText.textContent = `Move (Stand up, stretch)`;
 
     defaultValue();
+    clearModes();
+    longBreakColorMode();
 
-    minutes = Number(longBreaksInput.value);
+
+    minutes = longBreakMinutes;
+
 }
 
 function switchMode() {
@@ -198,15 +200,13 @@ function switchMode() {
         } else {
             shortBreak();
         }
-    } else {  
-        
+    } else {
+        clearModes();
         focusColorMode();
 
-        messageText.textContent = "Break Over! Back to work";
+        minutes = workMinutes;
 
         defaultValue();
-
-        minutes = Number(minutesInput.value);
 
         messageText.textContent = `Deep work`;
 
@@ -252,7 +252,9 @@ function pauseTimer() {
 function resetTimer() {
 
     clearInterval(timer);
+    let sessionCompleted = 0;
     minutes = Number(minutesInput.value);
+    clearModes();
     defaultValue();
     isPaused = false;
     isRunning = false;
@@ -302,8 +304,75 @@ function shortBreakColorMode() {
 
     messageFocus.classList.add('break-mode-message-text');
 
-    round.classList.add('focus-mode-round');
+    round.classList.add('break-mode-round');
 }
-function longBreakColorMode() {
 
+function longBreakColorMode() {
+    bodyElement.classList.add('long-break-mode');
+
+    mainElement.classList.add('long-break-mode-main');
+
+    timerElement.classList.add('long-break-mode-timer');
+
+    numberOfCounts.classList.add('long-break-mode-numberOfCounts');
+
+    roundDisplay.classList.add('long-break-mode-roundDisplay');
+
+    messageDisplay.classList.add('long-break-mode-message');
+
+    messageFocus.classList.add('long-break-mode-message-text');
+
+    round.classList.add('long-break-mode-round');
+}
+
+function clearModes() {
+
+    bodyElement.classList.remove(
+        "focus-mode",
+        "break-mode",
+        "long-break-mode"
+    );
+
+    mainElement.classList.remove(
+        "focus-mode-main",
+        "break-mode-main",
+        "long-break-mode-main"
+    );
+
+    timerElement.classList.remove(
+        "focus-mode-timer",
+        "break-mode-timer",
+        "long-break-mode-timer"
+    );
+
+    numberOfCounts.classList.remove(
+        "focus-mode-numberOfCounts",
+        "break-mode-numberOfCounts",
+        "long-break-mode-numberOfCounts"
+    );
+
+
+    roundDisplay.classList.remove(
+        "focus-mode-roundDisplay",
+        "break-mode-roundDisplay",
+        "long-break-mode-roundDisplay"
+    );
+
+    messageDisplay.classList.remove(
+        "focus-mode-message",
+        "break-mode-message",
+        "long-break-mode-message"
+    );
+
+    messageFocus.classList.remove(
+        "focus-mode-message-text",
+        "break-mode-message-text",
+        "long-break-mode-message-text"
+    );
+
+    round.classList.remove(
+        "focus-mode-round",
+        "break-mode-round",
+        "long-break-mode-round"
+    );
 }
