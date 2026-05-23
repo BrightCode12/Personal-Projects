@@ -42,12 +42,26 @@ const dynamicInputs = document.getElementById("dynamicInputs");
 const settingInputContainer = document.getElementById("innerInputContainer");
 const mainInputsContainer = document.querySelector(".userGoal");
 
+settingsBtn.addEventListener("click", () => {
+    popMenu.classList.add("active");
+});
+
+closeBtn.addEventListener("click", () => {
+    popMenu.classList.remove("active");
+})
+
+popMenu.addEventListener("click", (e) => {
+    if (e.target === popMenu) {
+        popMenu.classList.remove("active");
+    }
+});
 
 function moveInputsToSettings() {
-    settingsInputs.appendChild(dynamicInputs);
+    settingsInputsContainer.appendChild(dynamicInputs);
 
     toggleInputsBtn.disabled = false;
 }
+
 function moveInputsToMain() {
     mainInputsContainer.appendChild(dynamicInputs);
 
@@ -60,20 +74,6 @@ toggleInputsBtn.addEventListener("change", () => {
         moveInputsToMain();
     } else {
         moveInputsToSettings();
-    }
-});
-
-settingsBtn.addEventListener("click", () => {
-    popMenu.classList.add("active");
-});
-
-closeBtn.addEventListener("click", () => {
-    popMenu.classList.remove("active");
-})
-
-popMenu.addEventListener("click", (e) => {
-    if (e.target === popMenu) {
-        popMenu.classList.remove("active");
     }
 });
 
@@ -422,3 +422,5 @@ function clearModes() {
         "long-break-mode-round"
     );
 }
+
+moveInputsToMain();
