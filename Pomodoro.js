@@ -32,6 +32,51 @@ const messageDisplay = document.querySelector(".message");
 const messageFocus = document.querySelector(".message-text");
 const round = document.querySelector(".round");
 
+const settingsBtn = document.getElementById("settingBtn");
+const popMenu = document.getElementById("popMenu");
+const closeBtn = document.getElementById("close-btn");
+
+
+const toggleInputsBtn = document.getElementById("toggleInputBtn");
+const dynamicInputs = document.getElementById("dynamicInputs");
+const settingInputContainer = document.getElementById("innerInputContainer");
+const mainInputsContainer = document.querySelector(".userGoal");
+
+
+function moveInputsToSettings() {
+    settingsInputs.appendChild(dynamicInputs);
+
+    toggleInputsBtn.disabled = false;
+}
+function moveInputsToMain() {
+    mainInputsContainer.appendChild(dynamicInputs);
+
+    toggleInputsBtn.disabled = true;
+}
+
+toggleInputsBtn.addEventListener("change", () => {
+    if (toggleInputsBtn.checked) {
+
+        moveInputsToMain();
+    } else {
+        moveInputsToSettings();
+    }
+});
+
+settingsBtn.addEventListener("click", () => {
+    popMenu.classList.add("active");
+});
+
+closeBtn.addEventListener("click", () => {
+    popMenu.classList.remove("active");
+})
+
+popMenu.addEventListener("click", (e) => {
+    if (e.target === popMenu) {
+        popMenu.classList.remove("active");
+    }
+});
+
 minutesInput.addEventListener("change", () => {
 
     const value = Number(minutesInput.value);
@@ -71,7 +116,6 @@ function defaultValue() {
 }
 
 longBreaksInput.addEventListener("change", () => {
-
     const value = Number(longBreaksInput.value);
 
     if (value < 0 || value >= 20) {
@@ -84,8 +128,8 @@ longBreaksInput.addEventListener("change", () => {
 
         updateDisplay();
     }
+})
 
-});
 
 hoursInput.addEventListener("change", () => {
     const value = Number(hoursInput.value);
@@ -163,9 +207,9 @@ function shortBreak() {
 }
 
 function longBreak() {
-    
-    sessionCompleted++;
-    
+
+    sessionsCompleted++;
+
     messageText.textContent = `Move (Stand up, stretch)`;
 
     defaultValue();
@@ -229,6 +273,8 @@ function numHours() {
 
         toggleInputs(false);
 
+        clearModes();
+
         messageText.textContent = `🎉 Goal Completed`;
 
     }
@@ -252,7 +298,7 @@ function pauseTimer() {
 function resetTimer() {
 
     clearInterval(timer);
-    let sessionCompleted = 0;
+    sessionsCompleted = 0;
     minutes = Number(minutesInput.value);
     clearModes();
     defaultValue();

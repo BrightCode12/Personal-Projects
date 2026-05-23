@@ -18,7 +18,6 @@ body {
 }
 
 main {
-
   width: min(95%, 1100px);
   max-width: 1200px;
 
@@ -117,9 +116,10 @@ section {
 .message-text {
   width: 100%;
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
   text-align: center;
+  gap: 1rem;
   background-color: #C31D00;
   padding: 1.0rem;
   border-radius: 1.0rem;
@@ -251,8 +251,6 @@ button:active {
   transition: background-color 0.2s cubic-bezier(1, 0, 0, 1);
 
 }
-
-;
 
 .stop:hover {
   background-color: #C42D20;
@@ -580,7 +578,7 @@ main,
   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.22);
 }
 
-.long-break-mode-roundDisplay{
+.long-break-mode-roundDisplay {
 
   background: rgba(91, 33, 182, 0.22);
 
@@ -638,6 +636,61 @@ main,
 
   z-index: -1;
 }
+
+.settings-btn {
+  font-size: 1.9rem;
+  border: none;
+  border-radius: 50%;
+  background-color: rgb(8, 8, 175);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.settings-btn:hover {
+  animation: settingBounce 0.7s ease forwards;
+}
+
+@keyframes settingsBounceSpin {
+  0% {
+    transform: translateY(0) rotate(0deg);
+  }
+
+  30% {
+    transform: translateY(-6px) rotate(0deg);
+  }
+
+  100% {
+    transform: translateY(-6px) rotate(180deg);
+  }
+}
+
+.active{
+  display: flex;
+}
+
+.pop-Menu{
+  opacity: 0;
+  visibility: hidden;
+}
+
+.pop-Menu.active {
+  opacity: 1;
+  visibility: visible;
+  display: flex;
+}
+
+.pop-Menu.active  .settings-panel {
+  transform: translateY(0) scale(1);
+}
+
+
 
 @media(min-width: 900px) {
   button {
