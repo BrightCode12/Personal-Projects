@@ -62,24 +62,21 @@
 
     <section class="pop-Menu" id="popMenu">
       <div class="settings-panel" id="settingsPanel">
-
         <div class="settings-header">
           <h2>Settings</h2>
-
-          <button id="close-btn">
-            X
-          </button>
         </div>
-        <div class="toggle-row">
-          <span> Show Inputs On Main Screen</span>
-
-          <label for="" class="switch">
-            <input type="checkbox" name="" id="toggleInputBtn" checked>
-            <span class="slider round"></span>
-          </label>
+        <div class="innerInputsContainer">
+          <div class="toggle-row">
+            <span>Focus Mode</span>
+            <label class="switch">
+              <input type="checkbox">
+              <span class="slider"></span>
+            </label>
+          </div>
         </div>
-
-        <div id="innerInputsContainer"></div>
+        <button id="close-btn">
+          Close
+        </button>
       </div>
     </section>
   </main>
