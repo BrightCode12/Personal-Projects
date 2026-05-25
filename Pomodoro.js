@@ -1,4 +1,5 @@
 let timer;
+let mode = "pomodoro";
 
 let workMinutes = 25;
 let breakMinutes = 5;
@@ -37,10 +38,9 @@ const popMenu = document.getElementById("popMenu");
 const closeBtn = document.getElementById("close-btn");
 
 
-const toggleInputsBtn = document.getElementById("toggleInputBtn");
-const dynamicInputs = document.getElementById("dynamicInputs");
-const settingInputContainer = document.getElementById("innerInputContainer");
-const mainInputsContainer = document.querySelector(".userGoal");
+const toggleMode = document.getElementById("toggleMode");
+const modeText = document.getElementById("mode");
+const currentState = document.getElementById("currentState");
 
 settingsBtn.addEventListener("click", () => {
     popMenu.classList.add("active");
@@ -56,25 +56,33 @@ popMenu.addEventListener("click", (e) => {
     }
 });
 
-function moveInputsToSettings() {
-    settingsInputsContainer.appendChild(dynamicInputs);
+toggleMode.addEventListener("change", () => {
 
-    toggleInputsBtn.disabled = false;
-}
+    clearInterval("timer");
+    isRunning = false;
+    isPaused = false;
 
-function moveInputsToMain() {
-    mainInputsContainer.appendChild(dynamicInputs);
+    if (toggleMode.checked) {
+        mode = "timer";
+        modeText.textContent = "Timer Mode";
+        currentState.textContent = "Timer Mode";
+        const timerElement = document.getElementById("timer");
+        timerElement.textContent = "00:00:00";
 
-    toggleInputsBtn.disabled = true;
-}
+        minutes = 0;
+        seconds = 0;
+        milliseconds = 0;
 
-toggleInputsBtn.addEventListener("change", () => {
-    if (toggleInputsBtn.checked) {
-
-        moveInputsToMain();
     } else {
-        moveInputsToSettings();
+
+        mode = "pomodoro";
+        modeText.textContent = "Focus Mode";
+        currentState.textContent = "Focus Mode";
+
+        minutes = workMinutes;
+        seconds = 0;
     }
+    updateDisplay();
 });
 
 minutesInput.addEventListener("change", () => {
@@ -147,6 +155,10 @@ function updateDisplay() {
 }
 
 function formatTime(minutes, seconds, milliseconds) {
+    if (mode === "pomodoro") {
+        return
+        `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`
+    }
     return `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}:${String(milliseconds).padStart(2, '0')}`;
 }
 
@@ -160,11 +172,36 @@ function toggleInputs(disabled) {
 function startTimer() {
     if (isRunning) return;
 
-    timer = setInterval(focusMode, 10);
+    if (mode === "pomodoro") {
+
+        timer = setInterval(focusMode, 1000);
+    } else {
+
+        timer = setInterval(normalTimerMode, 10);
+    }
 
     isRunning = true;
 
     toggleInputs(true);
+}
+
+function normalTimerMode() {
+    if (!isPaused) {
+
+        milliseconds++;
+
+        if (milliseconds > 99) {
+
+            milliseconds = 0;
+            seconds++;
+
+            if (seconds > 59) {
+                seconds = 0;
+                minutes = 0;
+            }
+        }
+    }
+    updateDisplay();
 }
 
 function focusMode() {
@@ -422,5 +459,3 @@ function clearModes() {
         "long-break-mode-round"
     );
 }
-
-moveInputsToMain();
