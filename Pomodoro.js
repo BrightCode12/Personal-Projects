@@ -1,5 +1,4 @@
 let timer;
-let mode = "pomodoro";
 
 let workMinutes = 25;
 let breakMinutes = 5;
@@ -7,7 +6,6 @@ let longBreakMinutes = 10;
 
 let seconds = 0;
 let minutes = 25;
-let milliseconds = 99;
 
 let isPaused = false;
 let isRunning = false;
@@ -32,15 +30,14 @@ const roundDisplay = document.querySelector(".round-display");
 const messageDisplay = document.querySelector(".message");
 const messageFocus = document.querySelector(".message-text");
 const round = document.querySelector(".round");
+const errorMenu = document.getElementById("error-menu");
 
 const settingsBtn = document.getElementById("settingBtn");
 const popMenu = document.getElementById("popMenu");
 const closeBtn = document.getElementById("close-btn");
 
 
-const toggleMode = document.getElementById("toggleMode");
-const modeText = document.getElementById("mode");
-const currentState = document.getElementById("currentState");
+const toggleInputsBtn = document.getElementById("toggleInputBtn");
 
 settingsBtn.addEventListener("click", () => {
     popMenu.classList.add("active");
@@ -48,6 +45,7 @@ settingsBtn.addEventListener("click", () => {
 
 closeBtn.addEventListener("click", () => {
     popMenu.classList.remove("active");
+    loadInputs();
 })
 
 popMenu.addEventListener("click", (e) => {
@@ -56,110 +54,125 @@ popMenu.addEventListener("click", (e) => {
     }
 });
 
-toggleMode.addEventListener("change", () => {
-
-    clearInterval("timer");
-    isRunning = false;
-    isPaused = false;
-
-    if (toggleMode.checked) {
-        mode = "timer";
-        modeText.textContent = "Timer Mode";
-        currentState.textContent = "Timer Mode";
-        const timerElement = document.getElementById("timer");
-        timerElement.textContent = "00:00:00";
-
-        minutes = 0;
-        seconds = 0;
-        milliseconds = 0;
+toggleInputsBtn.addEventListener("change", () => {
+    if (toggleInputsBtn.checked) {
 
     } else {
 
-        mode = "pomodoro";
-        modeText.textContent = "Focus Mode";
-        currentState.textContent = "Focus Mode";
-
-        minutes = workMinutes;
-        seconds = 0;
     }
-    updateDisplay();
 });
 
 minutesInput.addEventListener("change", () => {
-
-    const value = Number(minutesInput.value);
-
-    if (value <= 0 || value >= 46) {
-
-        alert("Invalid Focus Input");
-
-        return;
-    } else {
-
-        workMinutes = value;
-
-        minutes = workMinutes;
-
-        updateDisplay();
-    }
+    if (!validateInputs()) return;
+    workMinutes = Number(minutesInput.value);
+    minutes = workMinutes;
+    savedInputs();
+    updateDisplay();
 });
 
 breakInput.addEventListener("change", () => {
-    const value = Number(breakInput.value);
-    if (value <= 0 || value > 15) {
 
-        alert("Break is too Long!");
-
-        return;
-    } else {
-        breakMinutes = value;
-
-        updateDisplay();
-    }
+    if (!validateInputs()) return;
+    breakMinutes = Number(breakInput.value);
+    minutes = breakMinutes;
+    savedInputs();
 });
+
+longBreaksInput.addEventListener("change", () => {
+
+    if (!validateInputs()) return;
+    longBreakMinutes = Number(breakInput.value);
+    savedInputs();
+});
+
+hoursInput.addEventListener("change", () => {
+
+    if (!validateInputs()) return;
+    totalHours = Number(hoursInput.value);
+    savedInputs();
+});
+
+function validateInputs() {
+    const minutes = Number(minutesInput.value);
+    const breaks = Number(breakInput.value);
+    const longBreak = Number(longBreaksInput.value);
+    const hours = Number(hoursInput.value);
+
+    if (minutes <= 0 || minutes > 45) {
+        errorMenu.textContent = "Focus minutes must be between 1 and 45";
+        return false;
+    }
+
+    if (breaks <= 0 || breaks > 30) {
+        errorMenu.textContent = "Break time must be between 1 and 30";
+        return false;
+    }
+
+    if (longBreak <= 0 || longBreak > 60) {
+        errorMenu.textContent = "Long break must be between 1 and 60";
+        return false;
+    }
+
+    if (hours < 0 || hours > 8) {
+        errorMenu.textContent = "Hours must be between 0 and 8";
+        return false;
+    }
+    errorMenu.textContent = "";
+
+    return true;
+}
 
 function defaultValue() {
     seconds = 0;
-    milliseconds = 99;
 }
 
-longBreaksInput.addEventListener("change", () => {
-    const value = Number(longBreaksInput.value);
+function savedInputs() {
 
-    if (value < 0 || value >= 20) {
+    if (!validateInputs()) return;
 
-        alert("Long Break Invalid");
+    const inputs = {
+        minutes: minutesInput.value,
+        breaks: breakInput.value,
+        longBreak: longBreaksInput.value,
+        hour: hoursInput.value
+    };
 
-        return;
-    } else {
-        longBreakMinutes = value;
+    localStorage.setItem(
+        "timerInputs",
+        JSON.stringify(inputs)
+    );
+}
 
-        updateDisplay();
-    }
-})
+function loadInputs() {
+    const savedInputs = JSON.parse(
+        localStorage.getItem("timerInputs")
+    );
 
+    if (!savedInputs) return;
 
-hoursInput.addEventListener("change", () => {
-    const value = Number(hoursInput.value);
-    if (value < 0 || value > 8) {
-        alert("Invalid Desired Duration");
-    }
-    totalHours = value;
-});
+    minutesInput.value = savedInputs.minutes;
+    breakInput.value = savedInputs.breaks;
+    longBreaksInput.value = savedInputs.longBreak;
+    hoursInput.value = savedInputs.hour;
+
+    workMinutes = Number(savedInputs.minutes);
+    breakMinutes = Number(savedInputs.breaks);
+    longBreakMinutes = Number(savedInputs.longBreak);
+    totalHours = Number(savedInputs.hour);
+
+    updateDisplay();
+
+}
 
 function updateDisplay() {
     const timerElement = document.getElementById("timer");
 
-    timerElement.textContent = formatTime(minutes, seconds, milliseconds);
+    timerElement.textContent = formatTime(minutes, seconds);
 
 }
 
-function formatTime(minutes, seconds, milliseconds) {
-    if (mode === "pomodoro") {
-        return
-        `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`
-    }
-    return `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}:${String(milliseconds).padStart(2, '0')}`;
+function formatTime(minutes, seconds) {
+    return `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
 }
 
 function toggleInputs(disabled) {
@@ -169,39 +182,18 @@ function toggleInputs(disabled) {
     hoursInput.disabled = disabled;
 }
 
+
 function startTimer() {
     if (isRunning) return;
 
-    if (mode === "pomodoro") {
-
-        timer = setInterval(focusMode, 1000);
-    } else {
-
-        timer = setInterval(normalTimerMode, 10);
-    }
+    timer = setInterval(focusMode, 1000);
 
     isRunning = true;
 
-    toggleInputs(true);
-}
-
-function normalTimerMode() {
-    if (!isPaused) {
-
-        milliseconds++;
-
-        if (milliseconds > 99) {
-
-            milliseconds = 0;
-            seconds++;
-
-            if (seconds > 59) {
-                seconds = 0;
-                minutes = 0;
-            }
-        }
-    }
+    loadInputs();
     updateDisplay();
+
+    toggleInputs(true);
 }
 
 function focusMode() {
@@ -209,25 +201,17 @@ function focusMode() {
     focusColorMode();
 
     if (!isPaused) {
-
-        if (milliseconds > 0) {
-
-            milliseconds--;
+        if (seconds > 0) {
+            seconds--;
         } else {
-            milliseconds = 99;
-            if (seconds > 0) {
-                seconds--;
+            seconds = 59;
+            if (minutes > 0) {
+                minutes--;
             } else {
-                seconds = 59;
-                if (minutes > 0) {
-                    minutes--;
-                } else {
-                    clearInterval(timer);
-                    switchMode();
-                }
+                clearInterval(timer);
+                switchMode();
             }
         }
-
     }
 
     updateDisplay();
