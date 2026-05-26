@@ -6,7 +6,6 @@ let longBreakMinutes = 10;
 
 let seconds = 0;
 let minutes = 25;
-let milliseconds = 99;
 
 let isPaused = false;
 let isRunning = false;
@@ -31,79 +30,150 @@ const roundDisplay = document.querySelector(".round-display");
 const messageDisplay = document.querySelector(".message");
 const messageFocus = document.querySelector(".message-text");
 const round = document.querySelector(".round");
+const errorMenu = document.getElementById("error-menu");
+
+const settingsBtn = document.getElementById("settingBtn");
+const popMenu = document.getElementById("popMenu");
+const closeBtn = document.getElementById("close-btn");
+
+
+const toggleInputsBtn = document.getElementById("toggleInputBtn");
+
+settingsBtn.addEventListener("click", () => {
+    popMenu.classList.add("active");
+});
+
+closeBtn.addEventListener("click", () => {
+    popMenu.classList.remove("active");
+    savedInputs();
+    loadInputs();
+})
+
+popMenu.addEventListener("click", (e) => {
+    if (e.target === popMenu) {
+        popMenu.classList.remove("active");
+        savedInputs();
+        loadInputs();
+    }
+});
+
 
 minutesInput.addEventListener("change", () => {
 
-    const value = Number(minutesInput.value);
-
-    if (value <= 0 || value >= 46) {
-
-        alert("Invalid Focus Input");
-
-        return;
-    } else {
-
-        workMinutes = value;
-
-        minutes = workMinutes;
-
-        updateDisplay();
-    }
+    workMinutes = Number(minutesInput.value);
+    minutes = workMinutes;
+    savedInputs();
+    updateDisplay();
 });
 
 breakInput.addEventListener("change", () => {
-    const value = Number(breakInput.value);
-    if (value <= 0 || value > 15) {
 
-        alert("Break is too Long!");
-
-        return;
-    } else {
-        breakMinutes = value;
-
-        updateDisplay();
-    }
+    if (!validateInputs()) return;
+    breakMinutes = Number(breakInput.value);
+    minutes = breakMinutes;
+    savedInputs();
+    updateDisplay();
 });
-
-function defaultValue() {
-    seconds = 0;
-    milliseconds = 99;
-}
 
 longBreaksInput.addEventListener("change", () => {
 
-    const value = Number(longBreaksInput.value);
-
-    if (value < 0 || value >= 20) {
-
-        alert("Long Break Invalid");
-
-        return;
-    } else {
-        longBreakMinutes = value;
-
-        updateDisplay();
-    }
-
+    if (!validateInputs()) return;
+    longBreakMinutes = Number(longBreaksInput.value);
+    savedInputs();
+    updateDisplay();
 });
 
 hoursInput.addEventListener("change", () => {
-    const value = Number(hoursInput.value);
-    if (value < 0 || value > 8) {
-        alert("Invalid Desired Duration");
-    }
-    totalHours = value;
+
+    if (!validateInputs()) return;
+    totalHours = Number(hoursInput.value);
+    savedInputs();
 });
+
+function validateInputs() {
+    const minutes = Number(minutesInput.value);
+    const breaks = Number(breakInput.value);
+    const longBreak = Number(longBreaksInput.value);
+    const hours = Number(hoursInput.value);
+
+    if (minutes <= 0 || minutes > 45) {
+        errorMenu.textContent = "Focus minutes must be between 1 and 45";
+        return false;
+    }
+
+    if (breaks <= 0 || breaks > 30) {
+        errorMenu.textContent = "Break time must be between 1 and 30";
+        return false;
+    }
+
+    if (longBreak <= 0 || longBreak > 60) {
+        errorMenu.textContent = "Long break must be between 1 and 60";
+        return false;
+    }
+
+    if (hours < 0 || hours > 8) {
+        errorMenu.textContent = "Hours must be between 0 and 8";
+        return false;
+    }
+
+    return true;
+}
+
+function defaultValue() {
+    seconds = 0;
+}
+
+function savedInputs() {
+
+    if (!validateInputs()) return;
+
+    const inputs = {
+        minutes: minutesInput.value,
+        breaks: breakInput.value,
+        longBreak: longBreaksInput.value,
+        hour: hoursInput.value
+    };
+
+    localStorage.setItem(
+        "timerInputs",
+        JSON.stringify(inputs)
+    );
+}
+
+function loadInputs() {
+    const savedInputs = JSON.parse(localStorage.getItem("timerInputs"));
+
+    if (!savedInputs) return;
+
+    minutesInput.value = savedInputs.minutes;
+    breakInput.value = savedInputs.breaks;
+    longBreaksInput.value = savedInputs.longBreak;
+    hoursInput.value = savedInputs.hour;
+
+    workMinutes = Number(savedInputs.minutes);
+    breakMinutes = Number(savedInputs.breaks);
+    longBreakMinutes = Number(savedInputs.longBreak);
+    totalHours = Number(savedInputs.hour);
+
+
+
+    if (isBreak) {
+        minutes = breakMinutes;
+    } else {
+        minutes = workMinutes;
+    }
+    updateDisplay();
+}
 
 function updateDisplay() {
     const timerElement = document.getElementById("timer");
 
-    timerElement.textContent = formatTime(minutes, seconds, milliseconds);
+    timerElement.textContent = formatTime(minutes, seconds);
 
 }
 
-function formatTime(minutes, seconds, milliseconds) {
-    return `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}:${String(milliseconds).padStart(2, '0')}`;
+function formatTime(minutes, seconds) {
+    return `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
 }
 
 function toggleInputs(disabled) {
@@ -113,12 +183,18 @@ function toggleInputs(disabled) {
     hoursInput.disabled = disabled;
 }
 
+
 function startTimer() {
     if (isRunning) return;
 
-    timer = setInterval(focusMode, 10);
+    timer = setInterval(focusMode, 1000);
 
     isRunning = true;
+
+    console.log("startTimer called, minutes =", minutes); // 👈 add this
+    console.log("workMinutes =", workMinutes); //
+
+    updateDisplay();
 
     toggleInputs(true);
 }
@@ -128,25 +204,17 @@ function focusMode() {
     focusColorMode();
 
     if (!isPaused) {
-
-        if (milliseconds > 0) {
-
-            milliseconds--;
+        if (seconds > 0) {
+            seconds--;
         } else {
-            milliseconds = 99;
-            if (seconds > 0) {
-                seconds--;
+            seconds = 59;
+            if (minutes > 0) {
+                minutes--;
             } else {
-                seconds = 59;
-                if (minutes > 0) {
-                    minutes--;
-                } else {
-                    clearInterval(timer);
-                    switchMode();
-                }
+                clearInterval(timer);
+                switchMode();
             }
         }
-
     }
 
     updateDisplay();
@@ -163,9 +231,9 @@ function shortBreak() {
 }
 
 function longBreak() {
-    
-    sessionCompleted++;
-    
+
+    messageText.textContent = sessionsCompleted;
+
     messageText.textContent = `Move (Stand up, stretch)`;
 
     defaultValue();
@@ -229,6 +297,8 @@ function numHours() {
 
         toggleInputs(false);
 
+        clearModes();
+
         messageText.textContent = `🎉 Goal Completed`;
 
     }
@@ -252,7 +322,7 @@ function pauseTimer() {
 function resetTimer() {
 
     clearInterval(timer);
-    let sessionCompleted = 0;
+    sessionsCompleted = 0;
     minutes = Number(minutesInput.value);
     clearModes();
     defaultValue();
@@ -376,3 +446,4 @@ function clearModes() {
         "long-break-mode-round"
     );
 }
+loadInputs();

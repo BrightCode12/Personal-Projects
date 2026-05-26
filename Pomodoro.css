@@ -18,7 +18,6 @@ body {
 }
 
 main {
-
   width: min(95%, 1100px);
   max-width: 1200px;
 
@@ -45,7 +44,7 @@ section {
   flex-direction: column;
   justify-content: center;
   text-align: center;
-  padding: clamp(1.9rem, 3vw, 5rem);
+  padding: clamp(3.0rem, 3vw, 5rem);
   font-size: clamp(2.5rem, 10vw, 6rem);
   margin-bottom: 0.4em;
   font-family: monospace;
@@ -117,9 +116,10 @@ section {
 .message-text {
   width: 100%;
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
   text-align: center;
+  gap: 1rem;
   background-color: #C31D00;
   padding: 1.0rem;
   border-radius: 1.0rem;
@@ -252,8 +252,6 @@ button:active {
 
 }
 
-;
-
 .stop:hover {
   background-color: #C42D20;
   color: mintcream;
@@ -265,22 +263,24 @@ button:active {
   gap: 1rem;
 }
 
-.input-group {
-  grid-area: input;
+.inputs-group {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  gap: 1rem;
+}
+
+.input-card {
+  display: flex;
+  flex-direction: column;
   gap: 0.5rem;
 }
 
 label {
-  display: block;
-  width: 100%;
   font-family: Helvetica, sans-serif;
   font-size: 1.3rem;
   font-weight: 600;
-  margin: 0.5em 0;
   text-align: center;
+  color: rgba(255, 255, 255, 0.9);
 }
 
 input {
@@ -289,13 +289,14 @@ input {
   height: 3.3rem;
   margin: 0.7rem 0;
   padding: 1.3rem 1rem;
-  border-radius: 10px;
+  border-radius: 1rem;
+  border: none;
   font-size: 1rem;
   outline: none;
 
   transition:
-    border 0.3s ease,
-    background-color 0.3s ease;
+    border 0.25s ease,
+    background-color 0.25s ease;
 }
 
 input::placeholder {
@@ -306,7 +307,9 @@ input::placeholder {
 
 input:focus {
   border: none;
+  background: rgba(0, 0, 0, 0.12);
   outline: 2px solid white;
+  color: white;
 }
 
 p {
@@ -580,7 +583,7 @@ main,
   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.22);
 }
 
-.long-break-mode-roundDisplay{
+.long-break-mode-roundDisplay {
 
   background: rgba(91, 33, 182, 0.22);
 
@@ -639,12 +642,281 @@ main,
   z-index: -1;
 }
 
+.settings-btn {
+  width: clamp(4rem, 6vw, 4rem);
+  height: clamp(4rem, 6vw, 4rem);
+  aspect-ratio: 1/1;
+  font-size: clamp(2rem, 2vw, 2rem);
+  border: none;
+  border-radius: 50%;
+  background: linear-gradient(
+    135deg, 
+    #1045b8,
+    #092b88
+  );
+
+  box-shadow: 0 10px 20px rgba(37, 99, 235, 0.3);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease,
+    opacity 0.25s ease;
+
+    color: white;
+    flex-shrink: 0;
+}
+
+.settings-btn:hover {
+  transform: 
+  translateX(-2px) scale(1.03);
+  animation: settingsBounceSpin 0.7s ease forwards;
+}
+
+@keyframes settingsBounceSpin {
+  0% {
+    transform: translateY(0) rotate(0deg);
+  }
+
+  30% {
+    transform: translateY(-6px) rotate(0deg);
+  }
+
+  100% {
+    transform: translateY(-6px) rotate(360deg);
+  }
+}
+
+.active {
+  display: flex;
+}
+
+.pop-Menu {
+  position: fixed;
+  inset: 0;
+
+  opacity: 0;
+  visibility: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  background: rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(10px);
+
+  transition:
+    opacity 0.3s ease,
+    visibility 0.3s ease;
+
+  z-index: 999;
+}
+
+.pop-Menu.active {
+  opacity: 1;
+  visibility: visible;
+  display: flex;
+}
+
+.pop-Menu.active .settings-panel {
+  transform: translateY(0) scale(1);
+
+  opacity: 1;
+}
+
+.settings-panel {
+  width: min(92%, 420px);
+
+  padding: 2.0rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+
+  position: relative;
+
+  overflow: hidden;
+
+  border-radius: 2rem;
+
+  background: linear-gradient(145deg,
+      rgba(15, 23, 42, 0.92),
+      rgba(30, 41, 59, 0.94));
+
+  border: 1px solid rgba(255, 255, 255, 0.08);
+
+  backdrop-filter: blur(18px);
+
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.45);
+
+  transform: translateY(40px);
+  scale: (0.95);
+
+  opacity: 0;
+
+  transition:
+    transform 0.35s ease,
+    opacity 0.35s ease;
+
+  color: white;
+}
+
+.settings-panel::before {
+  content: "";
+  position: absolute;
+  width: 250px;
+  height: 250px;
+
+  top: -120px;
+  right: -120px;
+
+  border-radius: 50%;
+
+  background: radial-gradient(circle,
+      rgba(59, 130, 246, 0.18),
+      transparent 70%);
+
+  pointer-events: none;
+}
+
+.settings-header {
+  text-align: center;
+
+  padding-bottom: 0.5rem;
+
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.settings-header h2 {
+  text-align: center;
+  font-size: 1.9rem;
+  font-weight: 800;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  letter-spacing: 0.5px;
+  color: white;
+}
+
+.innerInputsContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.toggle-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem 1.2rem;
+  border-radius: 1.2rem;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+
+  transition:
+    transform 0.25s ease background 0.25s ease,
+    border 0.25s ease;
+}
+
+.toggle-row:hover {
+  transform: translateY(-2px);
+
+  background: rgba(255, 255, 255, 0.08);
+
+  border: 1px solid rgba(59, 130, 246, 0.18);
+}
+
+.toggle-row span {
+  font-size: 1.0rem;
+  font-weight: 700;
+
+  color: rgba(255, 255, 255, 0.92);
+}
+
+.switch {
+  position: relative;
+  width: 60px;
+  height: 32px;
+  display: inline-block;
+  flex-shrink: 0;
+}
+
+.switch input {
+  display: none;
+}
+
+.slider {
+  position: absolute;
+  inset: 0;
+  cursor: pointer;
+  border-radius: 2.125rem;
+  background: rgba(255, 255, 255, 0.18);
+  transition: background 0.3s ease;
+}
+
+.slider::before {
+  content: "";
+  position: absolute;
+
+  width: 24px;
+  height: 24px;
+
+  left: 4px;
+  top: 4px;
+
+  border-radius: 50%;
+
+  background: white;
+
+  transition: transform 0.4s ease;
+
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+}
+
+.switch input:checked+.slider {
+  background: linear-gradient(135deg, #3BB2F6, #2563EB);
+}
+
+.switch input:checked+.slider::before {
+  transform: translateX(28px);
+}
+
+#close-btn {
+  width: 100%;
+  border: none;
+  padding: 1rem;
+  border-radius: 1rem;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 700;
+
+  color: white;
+
+  background: linear-gradient(135deg,
+      #EF4444,
+      #DC2626);
+
+  transition:
+    transform 0.25s ease,
+    opacity 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+#close-btn:hover {
+  transform: translateY(-2px);
+  opacity: 0.95;
+  box-shadow:
+    0 16px 28px rgba(239, 68, 68, 0.32);
+}
+
+#close-btn:active {
+  transform: scale(0.97);
+}
+
 @media(min-width: 900px) {
   button {
-    padding-top: 1.0rem;
-    padding-bottom: 1.5rem;
-    padding-left: 1.5rem;
-    padding-right: 1.5rem;
+    padding: 1rem 1.5rem;
     font-size: 1.5rem;
     text-align: center;
 
@@ -661,13 +933,16 @@ main,
     grid-template-areas:
       "button timer timer"
       "button timer timer"
-      "button input input"
     ;
   }
 
+  .timer-display{
+    grid-area: timer; 
+  }
+  
   .timer {
     margin-bottom: 0;
-    padding: clamp(2rem, 5vw, 5rem);
+    padding: 5.9rem 5rem;
     border-radius: 2.5rem;
   }
 
@@ -678,17 +953,16 @@ main,
     align-content: center;
     gap: 1rem;
     background-color: rgba(27, 26, 26, 0.04);
-    border-radius: 1.5rem;
+    border-radius: 1.8rem;
     padding: clamp(1.5rem, 2vw, 1.8rem);
-    border: 0.5px solid rgba(255, 255, 255, 0);
+    border: 1px solid rgba(255, 255, 255, 0);
     box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
-    margin-top: 1.42rem;
   }
 
-  .userGoal {
-    padding: 1.5rem;
-    border-radius: 1.5rem;
-    background-color: rgba(255, 255, 255, 0.04);
+  .settings-panel {
+    width: min(100%, 600px);
+    padding: 2.5rem;
+    border-radius: 2rem;
   }
 
   .numberOfCounts {
@@ -726,7 +1000,7 @@ main,
     text-align: center;
   }
 
-  input {
+  .inputs-card {
     flex-grow: 1;
     width: 100%;
     height: 3.3rem;
@@ -740,4 +1014,78 @@ main,
       border 0.3s ease,
       background-color 0.3s ease;
   }
+
+  .input-card {
+    display: flex;
+    flex-direction: column;
+
+    gap: 0.6rem;
+    padding: 1rem;
+    border-radius: 1rem;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+
+    transition:
+      transform 0.25s ease,
+      background 0.25s ease;
+  }
+
+  .input-card:hover {
+    transform: translateY(-2px);
+    background: rgba(255, 255, 255, 0.06);
+  }
+
+  .input-card label {
+    font-size: 1rem;
+    font-weight: 600;
+    text-align: left;
+    color: rgba(255, 255, 255, 0.9);
+  }
+
+  .input-card input {
+    width: 100%;
+
+    height: 52px;
+
+    border: none;
+
+    outline: none;
+
+    border-radius: 0.9rem;
+    padding: 0 1rem;
+    font-size: 1rem;
+    color: white;
+    background: rgba(255, 255, 255, 0.08);
+
+    transition:
+      background 0.25s ease,
+      border 0.25s ease,
+      transform 0.25s ease;
+  }
+
+  .input-card input:focus {
+    background: rgba(255, 255, 255, 0.12);
+    border: 1px solid #3882F6;
+    transform: scale(1.01);
+  }
+
+ .message{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    overflow: hidden;
+ }
+ .message-text{
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  gap: 1rem;
+
+  flex-wrap: nowrap;
+
+  padding: 1rem 1.2rem;
+ }
 }

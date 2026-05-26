@@ -16,7 +16,7 @@
     <div class="timer-display">
       <section class="timer" id="timer">
         <p id="currentState"> Focus Mode</p>
-        00:00:00
+        00:00
       </section>
     </div>
     <section class="numberOfCounts">
@@ -26,7 +26,10 @@
       </div>
       <div class="message">
         <div class="message-text">
-          Deep work mode
+          <div class="">Deep work</div>
+          <button class="settings-btn" id="settingBtn">
+            ⚙️
+          </button>
         </div>
       </div>
     </section>
@@ -37,24 +40,55 @@
       <button type="button" class="stop" id="resetTimer" onclick="stopTimer()">Stop</button>
     </section>
 
-    <section class="userGoal">
-      <div class="inputs-group">
-        <label for="numOfHours">
-          Desired duration
-        </label>
-        <input type="number" placeholder="Hours" id="numOfHours">
-        <label for ="numOfMinutes">
-          Focus length
-        </label>
-        <input type="number" placeholder="Focus time" id="numOfMinutes" value="25" />
-        <label for="numberOfBreaks">
-          Break length
-        </label>
-        <input type="number" placeholder="Break time" id="numberOfBreaks" value="5" />
-        <label for="numberOfLongBreak">
-          Long break duration.
-        </label>
-        <input type="number" placeholder="Long Break" id="numberOfLongBreaks" value="10" />
+    <section class="pop-Menu" id="popMenu">
+      <div class="settings-panel" id="settingsPanel">
+
+        <div class="settings-header">
+          <h2>Settings</h2>
+        </div>
+
+        <div class="innerInputsContainer">
+          <div class="toggle-row">
+            <span id="mode">Focus Mode</span>
+            <label class="error-menu">
+             
+            </label>
+          </div>
+
+          <div class="input-group">
+
+            <div class="input-card">
+              <label for="numOfHours">
+                Desired duration
+              </label>
+              <input type="number" placeholder="Hours" id="numOfHours" value="1">
+            </div>
+
+            <div class="input-card">
+              <label for="numOfMinutes">
+                Focus length
+              </label>
+              <input type="number" placeholder="Focus time" id="numOfMinutes" value="25" />
+            </div>
+
+            <div class="input-card">
+              <label for="numberOfBreaks">
+                Break length
+              </label>
+              <input type="number" placeholder="Break time" id="numberOfBreaks" value="5" />
+            </div>
+
+            <div class="input-card">
+              <label for="numberOfLongBreak">
+                Long break duration.
+              </label>
+              <input type="number" placeholder="Long Break" id="numberOfLongBreaks" value="10" />
+            </div>
+          </div>
+        </div>
+        <button id="close-btn">
+          Close
+        </button>
       </div>
     </section>
   </main>
