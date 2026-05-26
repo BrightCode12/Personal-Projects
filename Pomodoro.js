@@ -45,25 +45,21 @@ settingsBtn.addEventListener("click", () => {
 
 closeBtn.addEventListener("click", () => {
     popMenu.classList.remove("active");
+    savedInputs();
     loadInputs();
 })
 
 popMenu.addEventListener("click", (e) => {
     if (e.target === popMenu) {
         popMenu.classList.remove("active");
+        savedInputs();
+        loadInputs();
     }
 });
 
-toggleInputsBtn.addEventListener("change", () => {
-    if (toggleInputsBtn.checked) {
-
-    } else {
-
-    }
-});
 
 minutesInput.addEventListener("change", () => {
-    if (!validateInputs()) return;
+
     workMinutes = Number(minutesInput.value);
     minutes = workMinutes;
     savedInputs();
@@ -76,13 +72,15 @@ breakInput.addEventListener("change", () => {
     breakMinutes = Number(breakInput.value);
     minutes = breakMinutes;
     savedInputs();
+    updateDisplay();
 });
 
 longBreaksInput.addEventListener("change", () => {
 
     if (!validateInputs()) return;
-    longBreakMinutes = Number(breakInput.value);
+    longBreakMinutes = Number(longBreaksInput.value);
     savedInputs();
+    updateDisplay();
 });
 
 hoursInput.addEventListener("change", () => {
@@ -117,7 +115,6 @@ function validateInputs() {
         errorMenu.textContent = "Hours must be between 0 and 8";
         return false;
     }
-    errorMenu.textContent = "";
 
     return true;
 }
@@ -144,9 +141,7 @@ function savedInputs() {
 }
 
 function loadInputs() {
-    const savedInputs = JSON.parse(
-        localStorage.getItem("timerInputs")
-    );
+    const savedInputs = JSON.parse(localStorage.getItem("timerInputs"));
 
     if (!savedInputs) return;
 
@@ -160,8 +155,14 @@ function loadInputs() {
     longBreakMinutes = Number(savedInputs.longBreak);
     totalHours = Number(savedInputs.hour);
 
-    updateDisplay();
 
+
+    if (isBreak) {
+        minutes = breakMinutes;
+    } else {
+        minutes = workMinutes;
+    }
+    updateDisplay();
 }
 
 function updateDisplay() {
@@ -190,7 +191,9 @@ function startTimer() {
 
     isRunning = true;
 
-    loadInputs();
+    console.log("startTimer called, minutes =", minutes); // 👈 add this
+    console.log("workMinutes =", workMinutes); //
+
     updateDisplay();
 
     toggleInputs(true);
@@ -229,7 +232,7 @@ function shortBreak() {
 
 function longBreak() {
 
-    sessionsCompleted++;
+    messageText.textContent = sessionsCompleted;
 
     messageText.textContent = `Move (Stand up, stretch)`;
 
@@ -443,3 +446,4 @@ function clearModes() {
         "long-break-mode-round"
     );
 }
+loadInputs();
