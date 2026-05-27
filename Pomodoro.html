@@ -8,14 +8,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Pomodoro Timer</title>
   <link rel="stylesheet" href="Pomodoro.css">
-  <!-- <link rel="stylesheet" href="Pomodoro2.css"> -->
 </head>
 
 <body>
   <main>
-    <div class="timer-display">
+    <div class="timer-display"> 
+      <p id="currentState"> Focus Mode</p>
       <section class="timer" id="timer">
-        <p id="currentState"> Focus Mode</p>
         00:00
       </section>
     </div>
@@ -26,7 +25,7 @@
       </div>
       <div class="message">
         <div class="message-text">
-          <div class="">Deep work</div>
+          <div class="message-texts">Deep work</div>
           <button class="settings-btn" id="settingBtn">
             ⚙️
           </button>
@@ -34,10 +33,10 @@
       </div>
     </section>
     <section class="button-space">
-      <button type="submit" class="start" onclick="startTimer() ">Start</button>
-      <button type="button" class="pause" onclick="pauseTimer()" id="pause">Pause</button>
+      <button type="button" class="start" onclick="startTimer()">Start</button>
+      <button type="button" class="pause" onclick="pauseTimer()">Pause</button>
       <button type="button" class="reset" onclick="resetTimer()">Reset</button>
-      <button type="button" class="stop" id="resetTimer" onclick="stopTimer()">Stop</button>
+      <button type="button" class="stop"  onclick="stopTimer()">Stop</button>
     </section>
 
     <section class="pop-Menu" id="popMenu">
@@ -49,10 +48,7 @@
 
         <div class="innerInputsContainer">
           <div class="toggle-row">
-            <span id="mode">Focus Mode</span>
-            <label class="error-menu">
-             
-            </label>
+            <span id="error-menu">Focus Mode</span>
           </div>
 
           <div class="input-group">
