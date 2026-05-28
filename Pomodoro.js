@@ -1,5 +1,5 @@
 const timerData = {
-
+    // ---- Data -----
     seconds: 0,
     minutes: 25,
 
@@ -15,7 +15,164 @@ const timerData = {
     totalMinutes: 0,
     totalHours: 0,
 
-    timer: null
+    timer: null,
+
+    // ------ modes -------
+    shortBreak() {
+        sessionElement.textContent = this.sessionsCompleted;
+
+        messageText.textContent = `Time is Up! Take a break`;
+        shortBreakColorMode();
+        this.defaultValue();
+
+        this.minutes = this.breakMinutes;
+    },
+
+    longBreak() {
+        this.minutes = this.longBreakMinutes;
+        sessionElement.textContent = this.sessionsCompleted;
+
+        messageText.textContent = `Move (Stand up, stretch)`;
+
+        this.defaultValue();
+        clearModes();
+        longBreakColorMode();
+
+    },
+
+    switchMode() {
+
+        toggleInputs(false);
+
+        clearInterval(this.timer);
+
+        this.isRunning = false;
+
+        this.isBreak = !this.isBreak;
+
+        console.log("🔄 switchMode called! isBreak =", this.isBreak);
+
+        if (this.isBreak) {
+
+            this.sessionsCompleted++;
+
+            if (this.sessionsCompleted % 4 === 0) {
+
+                this.longBreak();
+
+            } else {
+                this.shortBreak();
+            }
+        } else {
+            clearModes();
+            focusColorMode();
+
+            this.minutes = this.workMinutes;
+
+            this.defaultValue();
+
+            messageText.textContent = `Deep work`;
+
+        }
+
+        this.updateDisplay();
+        this.startTimer();
+    },
+
+
+    // ----- Controls --------
+
+    startTimer() {
+        if (this.isRunning) return;
+
+        this.timer = setInterval(() => this.focusMode(), 1000);
+
+        this.isRunning = true;
+
+        console.log("startTimer called, minutes =", this.minutes); // 👈 add this
+        console.log("workMinutes =", this.workMinutes); //
+
+        this.updateDisplay();
+
+        toggleInputs(true);
+    },
+
+    pauseTimer() {
+        const pause = document.querySelector(".pause");
+
+        this.isPaused = !this.isPaused;
+
+        if (this.isPaused) {
+            clearInterval(this.timer);
+            this.isRunning = false;
+            pause.textContent = `Resume`;
+        } else {
+            pause.textContent = `Pause`;
+            this.startTimer();
+        }
+
+    },
+
+
+    resetTimer() {
+
+        clearInterval(this.timer);
+        this.sessionsCompleted = 0;
+        this.minutes = Number(minutesInput.value);
+        clearModes();
+        this.defaultValue();
+        this.isPaused = false;
+        this.isRunning = false;
+        this.updateDisplay();
+        toggleInputs(false)
+    },
+
+
+    stopTimer() {
+        clearInterval(this.timer);
+        this.timer = null;
+        this.isRunning = false;
+        this.isPaused = false;
+    },
+
+    // ---- TIMER ENGINE ------------
+    focusMode() {
+        // This Logic checks if the millisecond is greater than zero and if it is reduces it zero and then checks if it still greater than zero else it moves to the next one.
+        focusColorMode();
+
+        if (!this.isPaused) {
+            if (this.seconds > 0) {
+                this.seconds--;
+            } else {
+                this.seconds = 59;
+                if (this.minutes > 0) {
+                    this.minutes--;
+                } else {
+                    clearInterval(this.timer);
+                    this.switchMode();
+                }
+            }
+        }
+
+        this.updateDisplay();
+    },
+
+
+    // ----- TIMER UI DISPLAY -----------
+
+    updateDisplay() {
+        const timerElement = document.getElementById("timer");
+
+        timerElement.textContent = formatTime(
+            this.minutes,
+            this.seconds,
+        );
+    },
+
+
+     defaultValue() {
+        this.seconds = 0;
+    }
 };
 
 
@@ -65,7 +222,7 @@ minutesInput.addEventListener("change", () => {
     timerData.workMinutes = Number(minutesInput.value);
     timerData.minutes = timerData.workMinutes;
     savedInputs();
-    updateDisplay();
+    timerData.updateDisplay();
 });
 
 breakInput.addEventListener("change", () => {
@@ -78,7 +235,7 @@ breakInput.addEventListener("change", () => {
     }
 
     savedInputs();
-    updateDisplay();
+    timerData.updateDisplay();
 });
 
 longBreaksInput.addEventListener("change", () => {
@@ -86,7 +243,7 @@ longBreaksInput.addEventListener("change", () => {
     if (!validateInputs()) return;
     timerData.longBreakMinutes = Number(longBreaksInput.value);
     savedInputs();
-    updateDisplay();
+    timerData.updateDisplay();
 });
 
 hoursInput.addEventListener("change", () => {
@@ -125,9 +282,7 @@ function validateInputs() {
     return true;
 }
 
-function defaultValue() {
-    timerData.seconds = 0;
-}
+
 
 function savedInputs() {
 
@@ -166,17 +321,10 @@ function loadInputs() {
     } else {
         timerData.minutes = timerData.workMinutes;
     }
-    updateDisplay();
+    timerData.updateDisplay();
 }
 
-function updateDisplay() {
-    const timerElement = document.getElementById("timer");
 
-    timerElement.textContent = formatTime(
-        timerData.minutes,
-        timerData.seconds,
-    );
-}
 
 function formatTime(minutes, seconds) {
     return `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
@@ -187,104 +335,6 @@ function toggleInputs(disabled) {
     breakInput.disabled = disabled;
     longBreaksInput.disabled = disabled;
     hoursInput.disabled = disabled;
-}
-
-
-function startTimer() {
-    if (timerData.isRunning) return;
-
-    timerData.timer = setInterval(focusMode, 1000);
-
-    timerData.isRunning = true;
-
-    console.log("startTimer called, minutes =", timerData.minutes); // 👈 add this
-    console.log("workMinutes =", timerData.workMinutes); //
-
-    updateDisplay();
-
-    toggleInputs(true);
-}
-
-function focusMode() {
-    // This Logic checks if the millisecond is greater than zero and if it is reduces it zero and then checks if it still greater than zero else it moves to the next one.
-    focusColorMode();
-
-    if (!timerData.isPaused) {
-        if (timerData.seconds > 0) {
-            timerData.seconds--;
-        } else {
-            timerData.seconds = 59;
-            if (timerData.minutes > 0) {
-                timerData.minutes--;
-            } else {
-                clearInterval(timerData.timer);
-                switchMode();
-            }
-        }
-    }
-
-    updateDisplay();
-}
-
-function shortBreak() {
-    sessionElement.textContent = timerData.sessionsCompleted;
-
-    messageText.textContent = `Time is Up! Take a break`;
-    shortBreakColorMode();
-    defaultValue();
-
-    timerData.minutes = timerData.breakMinutes;
-}
-
-function longBreak() {
-    timerData.minutes = timerData.longBreakMinutes;
-    sessionElement.textContent = timerData.sessionsCompleted;
-
-    messageText.textContent = `Move (Stand up, stretch)`;
-
-    defaultValue();
-    clearModes();
-    longBreakColorMode();
-
-}
-
-function switchMode() {
-
-    toggleInputs(false);
-
-    clearInterval(timerData.timer);
-
-    timerData.isRunning = false;
-
-    timerData.isBreak = !timerData.isBreak;
-
-    console.log("🔄 switchMode called! isBreak =", timerData.isBreak);
-
-    if (timerData.isBreak) {
-
-        timerData.sessionsCompleted++;
-
-        if (timerData.sessionsCompleted % 4 === 0) {
-
-            longBreak();
-
-        } else {
-            shortBreak();
-        }
-    } else {
-        clearModes();
-        focusColorMode();
-
-        timerData.minutes = timerData.workMinutes;
-
-        defaultValue();
-
-        messageText.textContent = `Deep work`;
-
-    }
-
-    updateDisplay();
-    startTimer();
 }
 
 function numHours() {
@@ -305,41 +355,6 @@ function numHours() {
         messageText.textContent = `🎉 Goal Completed`;
 
     }
-}
-
-function pauseTimer() {
-    const pause = document.getElementById("pause");
-
-    timerData.isPaused = !timerData.isPaused;
-    if (timerData.isPaused) {
-        clearInterval(timerData.timer);
-        timerData.isRunning = false;
-        pause.textContent = `Resume`;
-    } else {
-        pause.textContent = `Pause`;
-        startTimer();
-    }
-
-}
-
-function resetTimer() {
-
-    clearInterval(timerData.timer);
-    timerData.sessionsCompleted = 0;
-    timerData.minutes = Number(minutesInput.value);
-    clearModes();
-    defaultValue();
-    timerData.isPaused = false;
-    timerData.isRunning = false;
-    updateDisplay();
-    toggleInputs(false)
-}
-
-function stopTimer() {
-    clearInterval(timerData.timer);
-    timerData.timer = null;
-    timerData.isRunning = false;
-    timerData.isPaused = false;
 }
 
 function focusColorMode() {
