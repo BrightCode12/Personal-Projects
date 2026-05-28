@@ -15,7 +15,10 @@ const timerData = {
     totalMinutes: 0,
     totalHours: 0,
 
+    startTime: null,
     timer: null,
+    endTime: null,
+    remainingTime: 0,
 
     // ------ modes -------
     shortBreak() {
@@ -85,7 +88,18 @@ const timerData = {
     startTimer() {
         if (this.isRunning) return;
 
-        this.timer = setInterval(() => this.focusMode(), 1000);
+        if (this.timer) {
+            clearInterval(this.timer);
+            this.timer = null;
+        }
+
+        this.remainingTime = (this.minutes * 60 + this.seconds) * 1000;
+
+        this.startTime = Date.now();
+
+        this.endTime = this.startTime + this.remainingTime;
+       
+        this.timer = setInterval(() => this.updateTimer(), 1000);
 
         this.isRunning = true;
 
@@ -93,6 +107,7 @@ const timerData = {
         console.log("workMinutes =", this.workMinutes); //
 
         this.updateDisplay();
+        focusColorMode();
 
         toggleInputs(true);
     },
@@ -103,6 +118,8 @@ const timerData = {
         this.isPaused = !this.isPaused;
 
         if (this.isPaused) {
+
+            this.remainingTime = this.endTime - Date.now();
             clearInterval(this.timer);
             this.isRunning = false;
             pause.textContent = `Resume`;
@@ -136,23 +153,45 @@ const timerData = {
     },
 
     // ---- TIMER ENGINE ------------
-    focusMode() {
-        // This Logic checks if the millisecond is greater than zero and if it is reduces it zero and then checks if it still greater than zero else it moves to the next one.
-        focusColorMode();
+    // focusMode() {
+    //     // This Logic checks if the millisecond is greater than zero and if it is reduces it zero and then checks if it still greater than zero else it moves to the next one.
+    //     
 
-        if (!this.isPaused) {
-            if (this.seconds > 0) {
-                this.seconds--;
-            } else {
-                this.seconds = 59;
-                if (this.minutes > 0) {
-                    this.minutes--;
-                } else {
-                    clearInterval(this.timer);
-                    this.switchMode();
-                }
-            }
+
+    //     if (!this.isPaused) {
+    //         if (this.seconds > 0) {
+    //             this.seconds--;
+    //         } else {
+    //             this.seconds = 59;
+    //             if (this.minutes > 0) {
+    //                 this.minutes--;
+    //             } else {
+    //                 clearInterval(this.timer);
+    //                 this.switchMode();
+    //             }
+    //         }
+    //     }
+
+    //     this.updateDisplay();
+    // },
+
+    updateTimer() {
+        const currentTime = Date.now();
+        this.remainingTime = this.endTime - currentTime;
+
+        if (this.remainingTime <= 0) {
+            clearInterval(this.timer);
+            this.minutes = 0;
+            this.seconds = 0;
+            this.updateDisplay();
+            this.switchMode();
+            return;
         }
+
+        const totalSeconds = Math.floor(this.remainingTime / 1000);
+
+        this.minutes = Math.floor(totalSeconds / 60);
+        this.seconds = totalSeconds % 60;
 
         this.updateDisplay();
     },
@@ -170,7 +209,7 @@ const timerData = {
     },
 
 
-     defaultValue() {
+    defaultValue() {
         this.seconds = 0;
     }
 };
@@ -282,8 +321,6 @@ function validateInputs() {
     return true;
 }
 
-
-
 function savedInputs() {
 
     if (!validateInputs()) return;
@@ -323,8 +360,6 @@ function loadInputs() {
     }
     timerData.updateDisplay();
 }
-
-
 
 function formatTime(minutes, seconds) {
     return `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
