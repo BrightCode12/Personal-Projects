@@ -813,10 +813,23 @@ main,
   border-radius: 1.2rem;
   background: rgba(255, 255, 255, 0.05);
   border: 1px solid rgba(255, 255, 255, 0.08);
+  font-weight: bold;
 
   transition:
     transform 0.25s ease background 0.25s ease,
     border 0.25s ease;
+}
+
+.error {
+  background: rgba(233, 6, 6, 0.822);
+
+  border: 1px solid rgb(255, 255, 255);
+}
+
+.success {
+  background: rgb(31, 82, 2);
+
+  border: 1px solid rgb(255, 255, 255);
 }
 
 .toggle-row:hover {
@@ -828,8 +841,8 @@ main,
 }
 
 .toggle-row span {
-  font-size: 1.0rem;
-  font-weight: 700;
+  font-size: 1.5rem;
+  font-weight: bolder;
 
   color: rgba(255, 255, 255, 0.92);
 }

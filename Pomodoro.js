@@ -98,7 +98,7 @@ const timerData = {
         this.startTime = Date.now();
 
         this.endTime = this.startTime + this.remainingTime;
-       
+
         this.timer = setInterval(() => this.updateTimer(), 1000);
 
         this.isRunning = true;
@@ -206,6 +206,7 @@ const messageDisplay = document.querySelector(".message");
 const messageFocus = document.querySelector(".message-text");
 const round = document.querySelector(".round");
 const errorMenu = document.getElementById("error-menu");
+const errorMenuCon = document.querySelector(".toggle-row");
 
 const settingsBtn = document.getElementById("settingBtn");
 const popMenu = document.getElementById("popMenu");
@@ -217,9 +218,11 @@ settingsBtn.addEventListener("click", () => {
 });
 
 closeBtn.addEventListener("click", () => {
-    popMenu.classList.remove("active");
-    savedInputs();
-    loadInputs();
+    if (validateInputs()) {
+        popMenu.classList.remove("active");
+        savedInputs();
+        loadInputs();
+    }
 })
 
 popMenu.addEventListener("click", (e) => {
@@ -241,7 +244,7 @@ minutesInput.addEventListener("change", () => {
 
 breakInput.addEventListener("change", () => {
 
-    if (!validateInputs()) return;
+    if (!validateInputs());
     timerData.breakMinutes = Number(breakInput.value);
 
     if (timerData.isBreak) {
@@ -275,26 +278,35 @@ function validateInputs() {
 
     if (minutes <= 0 || minutes > 45) {
         errorMenu.textContent = "Focus minutes must be between 1 and 45";
+        errorMenuCon.classList.add("error");
         return false;
     }
 
     if (breaks <= 0 || breaks > 30) {
         errorMenu.textContent = "Break time must be between 1 and 30";
+        errorMenuCon.classList.add("error");
         return false;
     }
 
     if (longBreak <= 0 || longBreak > 60) {
         errorMenu.textContent = "Long break must be between 1 and 60";
+        errorMenuCon.classList.add("error");
         return false;
+
     }
 
-    if (hours < 0 || hours > 8) {
-        errorMenu.textContent = "Hours must be between 0 and 8";
+    if (hours <= 0 || hours > 8) {
+        errorMenuCon.classList.add("error");
+        errorMenu.textContent = "Hours must be between 1 and 8";
         return false;
+        console.log(true);
+        
     }
 
+    errorMenuCon.classList.add("success");
     return true;
 }
+
 
 function savedInputs() {
 
@@ -474,4 +486,5 @@ function clearModes() {
         "long-break-mode-round"
     );
 }
+
 loadInputs();
