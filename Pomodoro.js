@@ -103,11 +103,7 @@ const timerData = {
 
         this.isRunning = true;
 
-        console.log("startTimer called, minutes =", this.minutes); // 👈 add this
-        console.log("workMinutes =", this.workMinutes); //
-
         this.updateDisplay();
-        focusColorMode();
 
         toggleInputs(true);
     },
@@ -153,27 +149,6 @@ const timerData = {
     },
 
     // ---- TIMER ENGINE ------------
-    // focusMode() {
-    //     // This Logic checks if the millisecond is greater than zero and if it is reduces it zero and then checks if it still greater than zero else it moves to the next one.
-    //     
-
-
-    //     if (!this.isPaused) {
-    //         if (this.seconds > 0) {
-    //             this.seconds--;
-    //         } else {
-    //             this.seconds = 59;
-    //             if (this.minutes > 0) {
-    //                 this.minutes--;
-    //             } else {
-    //                 clearInterval(this.timer);
-    //                 this.switchMode();
-    //             }
-    //         }
-    //     }
-
-    //     this.updateDisplay();
-    // },
 
     updateTimer() {
         const currentTime = Date.now();
