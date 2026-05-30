@@ -12,7 +12,7 @@
 
 <body>
   <main>
-    <div class="timer-display"> 
+    <div class="timer-display">
       <p id="currentState"> Focus Mode</p>
       <section class="timer" id="timer">
         00:00
@@ -22,6 +22,10 @@
       <div class="round-display">
         <p class="round">0</p>
         <div class="text">Rounds</div>
+      </div>
+      <div class="round-display">
+        <p class="round" id ="Focus">0</p>
+        <div class="text">Focus</div>
       </div>
       <div class="message">
         <div class="message-text">
@@ -36,7 +40,7 @@
       <button type="button" class="start" onclick="timerData.startTimer()">Start</button>
       <button type="button" class="pause" onclick="timerData.pauseTimer()">Pause</button>
       <button type="button" class="reset" onclick="timerData.resetTimer()">Reset</button>
-      <button type="button" class="stop"  onclick="timerData.stopTimer()">Stop</button>
+      <button type="button" class="stop" onclick="timerData.stopTimer()">Stop</button>
     </section>
 
     <section class="pop-Menu" id="popMenu">
@@ -64,21 +68,21 @@
               <label for="numOfMinutes">
                 Focus length
               </label>
-              <input type="number" placeholder="Focus time" id="numOfMinutes" value="25" min="25" max="45"/>
+              <input type="number" placeholder="Focus time" id="numOfMinutes" value="25" min="25" max="45" />
             </div>
 
             <div class="input-card">
               <label for="numberOfBreaks">
                 Break length
               </label>
-              <input type="number" placeholder="Break time" id="numberOfBreaks" value="5" min="1" max="30"/>
+              <input type="number" placeholder="Break time" id="numberOfBreaks" value="5" min="1" max="30" />
             </div>
 
             <div class="input-card">
               <label for="numberOfLongBreak">
                 Long break duration.
               </label>
-              <input type="number" placeholder="Long Break" id="numberOfLongBreaks" value="10" min="1"  max="60"/>
+              <input type="number" placeholder="Long Break" id="numberOfLongBreaks" value="10" min="1" max="60" />
             </div>
           </div>
         </div>

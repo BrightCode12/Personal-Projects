@@ -12,6 +12,7 @@ const timerData = {
     isBreak: false,
 
     sessionsCompleted: 0,
+    focusBlock: 0,
     totalMinutes: 0,
     totalHours: 0,
 
@@ -22,9 +23,13 @@ const timerData = {
 
     // ------ modes -------
     shortBreak() {
+        currentState.textContent = "Take a break";
+
         sessionElement.textContent = this.sessionsCompleted;
 
-        messageText.textContent = `Time is Up! Take a break`;
+        focus.textContent = this.focusBlock;
+
+        messageText.textContent = `Time Up`;
         shortBreakColorMode();
         this.defaultValue();
 
@@ -34,8 +39,10 @@ const timerData = {
     longBreak() {
         this.minutes = this.longBreakMinutes;
         sessionElement.textContent = this.sessionsCompleted;
+        focus.textContent = this.focusBlock;
+        currentState.textContent = "Long Break";
 
-        messageText.textContent = `Move (Stand up, stretch)`;
+        messageText.textContent = `Stretch`;
 
         this.defaultValue();
         clearModes();
@@ -50,7 +57,7 @@ const timerData = {
         clearInterval(this.timer);
 
         this.isRunning = false;
-
+         
         this.isBreak = !this.isBreak;
 
         console.log("🔄 switchMode called! isBreak =", this.isBreak);
@@ -58,8 +65,10 @@ const timerData = {
         if (this.isBreak) {
 
             this.sessionsCompleted++;
+            this.focusBlock++;
 
             if (this.sessionsCompleted % 4 === 0) {
+                this.focusBlock = 0;
 
                 this.longBreak();
 
@@ -73,7 +82,7 @@ const timerData = {
             this.minutes = this.workMinutes;
 
             this.defaultValue();
-
+            currentState.textContent = "Focus Mode";
             messageText.textContent = `Deep work`;
 
         }
@@ -102,7 +111,7 @@ const timerData = {
         this.timer = setInterval(() => this.updateTimer(), 1000);
 
         this.isRunning = true;
-
+        focusColorMode();
         this.updateDisplay();
 
         toggleInputs(true);
@@ -196,6 +205,7 @@ const longBreaksInput = document.getElementById("numberOfLongBreaks");
 const hoursInput = document.getElementById("numOfHours");
 const sessionElement = document.querySelector(".round");
 const messageText = document.querySelector(".message-texts");
+const currentState = document.getElementById("currentState");
 
 const bodyElement = document.body;
 const mainElement = document.querySelector("main");
@@ -205,6 +215,7 @@ const roundDisplay = document.querySelector(".round-display");
 const messageDisplay = document.querySelector(".message");
 const messageFocus = document.querySelector(".message-text");
 const round = document.querySelector(".round");
+const focus = document.getElementById("Focus");
 const errorMenu = document.getElementById("error-menu");
 const errorMenuCon = document.querySelector(".toggle-row");
 
