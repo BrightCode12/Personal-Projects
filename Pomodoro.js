@@ -235,7 +235,7 @@ popMenu.addEventListener("click", (e) => {
 
 
 minutesInput.addEventListener("change", () => {
-
+    if (!validateInputs()) return;
     timerData.workMinutes = Number(minutesInput.value);
     timerData.minutes = timerData.workMinutes;
     savedInputs();
@@ -244,7 +244,7 @@ minutesInput.addEventListener("change", () => {
 
 breakInput.addEventListener("change", () => {
 
-    if (!validateInputs());
+    if (!validateInputs()) return;
     timerData.breakMinutes = Number(breakInput.value);
 
     if (timerData.isBreak) {
@@ -256,7 +256,6 @@ breakInput.addEventListener("change", () => {
 });
 
 longBreaksInput.addEventListener("change", () => {
-
     if (!validateInputs()) return;
     timerData.longBreakMinutes = Number(longBreaksInput.value);
     savedInputs();
@@ -277,36 +276,51 @@ function validateInputs() {
     const hours = Number(hoursInput.value);
 
     if (minutes <= 0 || minutes > 45) {
-        errorMenu.textContent = "Focus minutes must be between 1 and 45";
-        errorMenuCon.classList.add("error");
+
+        showMessage(
+            "error",
+            "Focus minutes must be between 1 and 45"
+        );
+
         return false;
     }
 
     if (breaks <= 0 || breaks > 30) {
-        errorMenu.textContent = "Break time must be between 1 and 30";
-        errorMenuCon.classList.add("error");
+
+        showMessage(
+            "error",
+            "Break time must be between 1 and 30"
+        );
+
         return false;
     }
 
     if (longBreak <= 0 || longBreak > 60) {
-        errorMenu.textContent = "Long break must be between 1 and 60";
-        errorMenuCon.classList.add("error");
-        return false;
 
+        showMessage(
+            "error",
+            "Long break must be between 1 and 60"
+        );
+
+        return false;
     }
 
     if (hours <= 0 || hours > 8) {
-        errorMenuCon.classList.add("error");
-        errorMenu.textContent = "Hours must be between 1 and 8";
+
+        showMessage(
+            "error",
+            "Hours must be between 1 and 8"
+        );
         return false;
-        console.log(true);
-        
     }
 
-    errorMenuCon.classList.add("success");
+    showMessage(
+        "success",
+        "Settings saved successfully"
+    );
+
     return true;
 }
-
 
 function savedInputs() {
 
@@ -485,6 +499,18 @@ function clearModes() {
         "break-mode-round",
         "long-break-mode-round"
     );
+}
+
+function showMessage(type, message) {
+
+    errorMenu.classList.remove(
+        "success",
+        "error"
+    );
+
+    errorMenuCon.classList.add(type);
+
+    errorMenu.textContent = message;
 }
 
 loadInputs();
