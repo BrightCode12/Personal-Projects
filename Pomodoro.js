@@ -222,6 +222,7 @@ const errorMenuCon = document.querySelector(".toggle-row");
 const settingsBtn = document.getElementById("settingBtn");
 const popMenu = document.getElementById("popMenu");
 const closeBtn = document.getElementById("close-btn");
+const topCon = document.querySelector(".topCon");
 
 
 settingsBtn.addEventListener("click", () => {
@@ -422,6 +423,7 @@ function focusColorMode() {
 
     round.classList.add('focus-mode-round');
 
+    topCon.classList.add('focus-mode-topCon');
 }
 
 function shortBreakColorMode() {
@@ -440,6 +442,9 @@ function shortBreakColorMode() {
     messageFocus.classList.add('break-mode-message-text');
 
     round.classList.add('break-mode-round');
+
+    topCon.classList.add('break-mode-topCon');
+
 }
 
 function longBreakColorMode() {
@@ -458,6 +463,9 @@ function longBreakColorMode() {
     messageFocus.classList.add('long-break-mode-message-text');
 
     round.classList.add('long-break-mode-round');
+
+    topCon.classList.add('long-break-mode-topCon');
+
 }
 
 function clearModes() {
@@ -509,6 +517,12 @@ function clearModes() {
         "focus-mode-round",
         "break-mode-round",
         "long-break-mode-round"
+    );
+
+    topCon.classList.remove(
+        "focus-mode-topCon",
+        "break-mode-topCon",
+        "long-break-mode-topCon"
     );
 }
 
